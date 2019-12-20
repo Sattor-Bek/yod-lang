@@ -2,7 +2,9 @@ class SubtitlesController < ApplicationController
   require 'uri'
   require 'cgi'
   require 'json'
-  require 'rest-client'
+  require 'open-uri'
+  require 'nokogiri'
+
   # before_action :authorize_subtitle, only: [:show, :new, :create]
   # before_action :set_subtitle, only: [:show, :edit, :update, :destroy]
 
@@ -20,8 +22,9 @@ class SubtitlesController < ApplicationController
 
     begin
       video_id = parse_youtube(url)
-      video_info = call_api(video_id)
+      video_info = title_call_api(video_id)
       @subtitle = subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title]) do |subtitle|
+          sentences_attributes = contents_call_api(video_id, language)
         subtitle.assign_attributes(params_new[:subtitle])
       end
     rescue  Subtitle::MissingSubtitlesError
@@ -32,7 +35,7 @@ class SubtitlesController < ApplicationController
       @subtitle.errors.add(:video_id, '無効なURLです。')
     end
 
-    authorize @subtitle
+    authorize_subtitle
 
     if @subtitle.persisted?
       redirect_to subtitle_path(@subtitle)
@@ -41,13 +44,6 @@ class SubtitlesController < ApplicationController
     end
   end
 
-  def call_api(id)
-    url = "https://www.googleapis.com/youtube/v3/videos?id=#{id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet,contentDetails,statistics,status"
-    info = JSON.parse(RestClient.get(url).body)
-    title = info["items"].first["snippet"]["title"]
-    channel_title = info["items"].first["snippet"]["channelTitle"]
-    { info: info, title: title, id: id, channel_title: channel_title }
-  end
 
   def show
     authorize_subtitle
@@ -61,6 +57,74 @@ class SubtitlesController < ApplicationController
       CGI::parse(u.query)["v"].first
     else
       u.path
+    end
+  end
+
+  def title_call_api(id)
+    url = "https://www.googleapis.com/youtube/v3/videos?id=#{id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet,contentDetails,statistics,status"
+    opened_url = open(url).read
+    info = JSON.parse(opened_url)
+    title = info["items"].first["snippet"]["title"]
+    channel_title = info["items"].first["snippet"]["channelTitle"]
+    { info: info, title: title, id: id, channel_title: channel_title }
+  end
+
+  def contents_call_api(video_id, language)
+    url = "http://video.google.com/timedtext?lang=#{language}&v=#{video_id}"
+    file = open(url).read
+    doc = Nokogiri::HTML(file)
+
+    raise Conversion::MissingSubtitlesError if doc.css("transcript text").empty?
+
+    if language == 'en'
+      array_elements = doc.css("transcript text").map do |node|
+        clean_content = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'")
+        { start: node.attributes['start'].value, content: clean_content }
+      end
+
+      array_elements.delete_if {|hash| hash[:content].blank? }
+
+      sentences_array = array_elements.map do |hash_sentence|
+        "[#{hash_sentence[:start]}] #{hash_sentence[:content]}"
+      end
+
+      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
+
+      prev = nil
+      segmented.map do |sentence|
+        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
+
+        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
+        {
+          start_timestamp: prev,
+          content: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+        }
+      end
+    elsif language == 'ja'
+      array_elements = doc.css("transcript text").map do |node|
+        clean_content = node.children.text.gsub(/\n/, ' ')
+        clean_content += "。"
+        { start: node.attributes['start'].value, content: clean_content }
+      end
+
+      array_elements.delete_if {|hash| hash[:content].blank? }
+
+      sentences_array = array_elements.map do |hash_sentence|
+        "[#{hash_sentence[:start]}] #{hash_sentence[:content]}"
+      end
+
+      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" "), language: 'ja').segment
+      prev = nil
+      segmented.map do |sentence|
+        sentence.gsub!('。', ' ')
+        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
+
+        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
+        {
+          start_timestamp: prev,
+          content: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+        }
+      end
     end
   end
 
