@@ -1,0 +1,20 @@
+<div class="main">
+  <div class="mb-3">
+    <h1 class="text-center">語学自習支援サイト Yod-langへようこそ。</h1>
+    <h2 id="subtitle">Subtitle</h2>
+  </div>
+  <div class="container">
+    <div class="box">
+        <%= simple_form_for @subtitle do |f| %>
+    <div class="language-choice">
+      <h4 class="block"><strong>言語を選択:</strong></h4>
+      <%= select_tag "language",  options_for_select(["日本語(ja)", "英語(en)", "ロシア語(ru)", "ウズベク語(uz)"], "en"), class: "button-blue" %>
+    </div>
+          <div class="url_input">
+            <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 mb-0'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=video_id' %>
+            <%= f.button :submit, "字幕を取得", input_html: {class: 'h-100'} %>
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>
