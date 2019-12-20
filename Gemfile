@@ -41,7 +41,7 @@ gem 'devise'
 gem 'pundit'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'simple_form'
-gem 'addressable', require: 'addressable/uri'
+gem 'rest-client', '~> 2.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
