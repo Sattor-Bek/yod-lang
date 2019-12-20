@@ -1,8 +1,11 @@
 class SubtitlesController < ApplicationController
 
   def show
-    authorize @subtitle
+    if @subtitle != nil
+      authorize @subtitle
+    end
   end
+
   def create
     url = subtitle_params[:video_id]
     if params[:language] == '日本語(ja)'
