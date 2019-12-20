@@ -7,8 +7,6 @@ class SubtitlesController < ApplicationController
     url = subtitle_params[:video_id]
     if params[:language] == '日本語(ja)'
       language = 'ja'
-    elsif params[:language] == '英語(en)'
-      language = 'en'
     elsif params[:language] == 'ロシア語(ru)'
       language = 'ru'
     elsif params[:language] == 'ウズベク語(uz)'
