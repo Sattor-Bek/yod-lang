@@ -1,9 +1,10 @@
 class SubtitlesController < ApplicationController
-
+  require 'addressable/uri'
+  before_action :authorize_subtitle, only: [:index, :show, :new, :create]
+  # before_action :set_subtitle, only: [:show, :edit, :update, :destroy]
+  require 'addressable/uri'
   def show
-    if @subtitle != nil
-      authorize @subtitle
-    end
+
   end
 
   def create
@@ -19,7 +20,12 @@ class SubtitlesController < ApplicationController
     end
 
     begin
-      video_id = CGI::parse(URI(url).query)["v"].first
+      video_id = Addressable::URI.parse(youtube_url)
+      if video_id.path == "/watch"
+        video_id.query_values["v"] if video_id.query_values
+      else
+        video_id.path
+      end
       video_info = call_api(video_id)
       @subtitle = subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title]) do |subtitle|
         subtitle.assign_attributes(params_new[:subtitle])
@@ -50,7 +56,9 @@ class SubtitlesController < ApplicationController
   end
 
   private
-
+  def authorize_subtitle
+    authorize @subtitle
+  end
   def subtitle_params
     params.require(:subtitle).permit(:video_id)
   end
