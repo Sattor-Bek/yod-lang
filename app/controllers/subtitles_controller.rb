@@ -185,10 +185,10 @@ class SubtitlesController < ApplicationController
   end
 
   def subtitle_params
-    params.require(:subtitle).permit(:video_id)
+    params.require(:subtitle).permit(:video_id, :language, :url_id)
   end
 
   def set_subtitle
-    @subtitle = Subtitle.find_by(video_id: params[:video_id])
+    @subtitle = Subtitle.find_by(url_id: params[:url_id])
   end
 end

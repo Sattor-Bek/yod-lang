@@ -13,6 +13,7 @@
     </div>
           <div class="row ml-5 mr-5 url_input">
             <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=video_id' %>
+            <% params[:url_id] = "#{params[:video_id]}(#{params[:language]})" %>
             <%= f.button :submit, "字幕を取得", class: 'h-100 btn btn-primary' %>
           </div>
         <% end %>
