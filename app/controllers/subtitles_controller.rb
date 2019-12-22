@@ -24,15 +24,20 @@ class SubtitlesController < ApplicationController
       video_id = parse_youtube(url)
       video_info = info_call_api(video_id)
       @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title]) do |subtitle|
-          sentences_attributes = contents_call_api(video_id, language)
-        subtitle.assign_attributes(params_new[:subtitle])
+          blocks_attributes = contents_call_api(video_id, language)
+          contents = { subtitle: {
+            blocks_attributes: blocks_attributes, language: language
+          } }
+        subtitle.assign_attributes(contents[:subtitle])
       end
     rescue  Subtitle::MissingSubtitlesError
       @subtitle = Subtitle.new
       @subtitle.errors.add(:video_id, 'このビデオでは字幕が見つかりません。他のビデオをお試しください。')
+            raise
     rescue NoMethodError
       @subtitle = Subtitle.new(video_id: url)
       @subtitle.errors.add(:video_id, '無効なURLです。')
+      raise
     end
 
     authorize_subtitle
