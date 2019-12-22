@@ -22,8 +22,8 @@ class SubtitlesController < ApplicationController
 
     begin
       video_id = parse_youtube(url)
-      video_info = title_call_api(video_id)
-      @subtitle = subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title]) do |subtitle|
+      video_info = info_call_api(video_id)
+      @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title]) do |subtitle|
           sentences_attributes = contents_call_api(video_id, language)
         subtitle.assign_attributes(params_new[:subtitle])
       end
@@ -60,7 +60,7 @@ class SubtitlesController < ApplicationController
     end
   end
 
-  def title_call_api(id)
+  def info_call_api(id)
     url = "https://www.googleapis.com/youtube/v3/videos?id=#{id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet,contentDetails,statistics,status"
     opened_url = open(url).read
     info = JSON.parse(opened_url)
@@ -74,7 +74,7 @@ class SubtitlesController < ApplicationController
     file = open(url).read
     doc = Nokogiri::HTML(file)
 
-    raise Conversion::MissingSubtitlesError if doc.css("transcript text").empty?
+    raise Subtitle::MissingSubtitlesError if doc.css("transcript text").empty?
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
