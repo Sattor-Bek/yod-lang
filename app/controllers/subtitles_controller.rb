@@ -142,6 +142,6 @@ class SubtitlesController < ApplicationController
   end
 
   def set_subtitle
-    @subtitle = Subtitle.find(params[:id])
+    @subtitle = Subtitle.find_by(video_id: params[:video_id])
   end
 end
