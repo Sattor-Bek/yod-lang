@@ -7,6 +7,6 @@ class Subtitle < ApplicationRecord
   accepts_nested_attributes_for :blocks
 
   def to_param
-  return self.video_id
+  return self.url_id
   end
 end
