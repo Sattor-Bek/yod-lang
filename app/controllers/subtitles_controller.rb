@@ -6,7 +6,7 @@ class SubtitlesController < ApplicationController
   require 'nokogiri'
 
   # before_action :authorize_subtitle, only: [:show, :new, :create]
-  # before_action :set_subtitle, only: [:show, :edit, :update, :destroy]
+  before_action :set_subtitle, only: [:show, :edit, :update, :destroy]
 
   def create
     url = subtitle_params[:video_id]
@@ -28,9 +28,9 @@ class SubtitlesController < ApplicationController
           contents = { subtitle: {
             blocks_attributes: blocks_attributes, language: language
           } }
-        subtitle.assign_attributes(contents[:subtitle])
+          subtitle.assign_attributes(contents[:subtitle])
       end
-    rescue  Subtitle::MissingSubtitlesError
+    rescue Subtitle::MissingSubtitlesError
       @subtitle = Subtitle.new
       @subtitle.errors.add(:video_id, 'このビデオでは字幕が見つかりません。他のビデオをお試しください。')
             raise
@@ -83,14 +83,14 @@ class SubtitlesController < ApplicationController
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
-        clean_content = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'")
-        { start: node.attributes['start'].value, content: clean_content }
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'")
+        { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
-      array_elements.delete_if {|hash| hash[:content].blank? }
+      array_elements.delete_if {|hash| hash[:sentence].blank? }
 
       sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:content]}"
+        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
       end
 
       segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
@@ -102,20 +102,20 @@ class SubtitlesController < ApplicationController
         prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
         {
           start_timestamp: prev,
-          content: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
         }
       end
     elsif language == 'ja'
       array_elements = doc.css("transcript text").map do |node|
-        clean_content = node.children.text.gsub(/\n/, ' ')
-        clean_content += "。"
-        { start: node.attributes['start'].value, content: clean_content }
+        clean_sentence = node.children.text.gsub(/\n/, ' ')
+        clean_sentence += "。"
+        { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
-      array_elements.delete_if {|hash| hash[:content].blank? }
+      array_elements.delete_if {|hash| hash[:sentence].blank? }
 
       sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:content]}"
+        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
       end
 
       segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" "), language: 'ja').segment
@@ -127,7 +127,7 @@ class SubtitlesController < ApplicationController
         prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
         {
           start_timestamp: prev,
-          content: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
         }
       end
     end

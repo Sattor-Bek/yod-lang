@@ -4,5 +4,5 @@ class Subtitle < ApplicationRecord
   has_many :blocks, dependent: :destroy
   validates :video_id, presence: true
   validates :user, presence: true
-  # accepts_nested_attributes_for :blocks
+  accepts_nested_attributes_for :blocks
 end

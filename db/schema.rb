@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_22_055106) do
+ActiveRecord::Schema.define(version: 2019_12_22_061023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_12_22_055106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "subtitle_id"
+    t.string "start_timestamp"
     t.index ["subtitle_id"], name: "index_blocks_on_subtitle_id"
   end
 
@@ -35,6 +36,8 @@ ActiveRecord::Schema.define(version: 2019_12_22_055106) do
     t.boolean "star"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_books_on_user_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -46,6 +49,10 @@ ActiveRecord::Schema.define(version: 2019_12_22_055106) do
     t.integer "card_frequency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "block_id"
+    t.bigint "book_id"
+    t.index ["block_id"], name: "index_cards_on_block_id"
+    t.index ["book_id"], name: "index_cards_on_book_id"
   end
 
   create_table "subtitles", force: :cascade do |t|
@@ -73,5 +80,8 @@ ActiveRecord::Schema.define(version: 2019_12_22_055106) do
   end
 
   add_foreign_key "blocks", "subtitles"
+  add_foreign_key "books", "users"
+  add_foreign_key "cards", "blocks"
+  add_foreign_key "cards", "books"
   add_foreign_key "subtitles", "users"
 end

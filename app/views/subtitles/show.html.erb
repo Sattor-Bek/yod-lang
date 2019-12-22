@@ -1,0 +1,26 @@
+<div class="">
+  <h1><%= @subtitle.video_title %></h1>
+</div>
+<div class="">
+          <div class="cards-container">
+            <ul class="cards-list">
+               <% @subtitle.blocks.sort_by { |block| block.created_at }.each do |block| %>
+                <li class="flashcard-list-item m-3">
+                  <span class="timestamp" style="display: none"><%= block.start_timestamp %></span>
+                  <div class="checkbox">
+                    <span class="results-flashcard">
+                      <span class="checkbox-container mr-3">
+                        <input id="checkbox-<%= block.id %>" type="checkbox" name ="block_ids[]" class="styled-checkbox" value="<%= block.id %>" >
+                        <label for="checkbox-<%= block.id %>" class="checkbox-label"></label>
+                      </span>
+                      <p>
+                        <%= block.sentence %>
+                      </p>
+                    </span>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+</div>
