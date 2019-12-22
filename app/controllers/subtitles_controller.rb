@@ -34,10 +34,10 @@ class SubtitlesController < ApplicationController
       end
     rescue Subtitle::MissingSubtitlesError
       @subtitle = Subtitle.new
-      @subtitle.errors.add(:url_id, 'このビデオでは字幕が見つかりません。他のビデオをお試しください。')
+      @subtitle.errors.add(:video_id, 'このビデオでは字幕が見つかりません。他のビデオをお試しください。')
     rescue NoMethodError
-      @subtitle = Subtitle.new(url_id: url_id)
-      @subtitle.errors.add(:url_id, '無効なURLです。')
+      @subtitle = Subtitle.new(video_id: url)
+      @subtitle.errors.add(:video_id, '無効なURLです。')
     end
 
     authorize_subtitle
