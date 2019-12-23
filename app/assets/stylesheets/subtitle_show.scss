@@ -1,3 +1,18 @@
+// main part
+#video_title{
+
+}
+
+// subtitle part
+.results-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content:wrap;
+  &:hover {
+  background-color: #F6F6F4;
+  }
+}
+// video part
 .fas {
   font-size: 56px;
   margin-left: 3vw;
@@ -9,14 +24,6 @@
 
 #excel {
   color:#1B7346;
-}
-
-ul {
-  list-style-type: none;
-}
-
-.results-cards :hover {
-  background-color: #F6F6F4;
 }
 
 .playerbox {
@@ -38,5 +45,12 @@ ul {
   p{
     font-size:32px;
   }
+}
+
+// select_all part
+#select_all{
+  position:fixed;
+  top:5vw;
+  right:0.5vw;
 
 }

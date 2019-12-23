@@ -1,0 +1,10 @@
+<button class="btn btn-primary" id="select_all">全て選択</button>
+<script>
+  document.getElementById('select_all').addEventListener('click', () => {
+    document.querySelectorAll('.block-checkbox').forEach((item) => {
+        item.checked = true
+        }
+      )
+    }
+  )
+</script>
