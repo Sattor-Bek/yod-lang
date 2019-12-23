@@ -1,10 +1,22 @@
 <button class="btn btn-primary" id="select_all">全て選択</button>
+<button class="btn btn-warning" id="select_none">全て解除</button>
+
 <script>
-  document.getElementById('select_all').addEventListener('click', () => {
-    document.querySelectorAll('.block-checkbox').forEach((item) => {
-        item.checked = true
-        }
-      )
+  const select_all_btn = document.getElementById('select_all')
+  const select_none_btn = document.getElementById('select_none')
+  const check_boxes = document.querySelectorAll('.block-checkbox')
+
+  select_all_btn.addEventListener('click', () => {
+    check_boxes.forEach((item) => {
+            item.checked = true
+            })
     }
   )
+  select_none_btn.addEventListener('click', () => {
+    check_boxes.forEach((item) => {
+            item.checked = false
+            })
+    }
+  )
+
 </script>
