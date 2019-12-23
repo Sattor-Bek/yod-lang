@@ -34,7 +34,7 @@ class SubtitlesController < ApplicationController
       end
     rescue Subtitle::MissingSubtitlesError
       @subtitle = Subtitle.new
-      @subtitle.errors.add(:video_id, 'このビデオでは字幕が見つかりません。他のビデオをお試しください。')
+      @subtitle.errors.add(:video_id, 'この動画では字幕が見つかりません。他の動画をお試しください。')
     rescue NoMethodError
       @subtitle = Subtitle.new(video_id: url)
       @subtitle.errors.add(:video_id, '無効なURLです。')
@@ -44,6 +44,8 @@ class SubtitlesController < ApplicationController
 
     if @subtitle.persisted?
       redirect_to subtitle_path(@subtitle)
+    elsif @subtitle == nil
+      redirect_to 'pages/home'
     else
       render 'pages/home'
     end

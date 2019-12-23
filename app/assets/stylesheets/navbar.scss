@@ -1,0 +1,27 @@
+.navbar {
+  width:100%;
+  font-weight: bold;
+  background-color: #F5F5F5;
+  a {
+    margin-right: 5vw;
+    color: #333333;
+    &:hover {
+      text-decoration: none;
+      color: #1A7246;
+    }
+  }
+  -webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.25);
+          box-shadow:0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.no-boxshadow .navbar {
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+
+.nav-items {
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
