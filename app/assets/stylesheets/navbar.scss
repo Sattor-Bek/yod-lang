@@ -1,6 +1,7 @@
 .navbar {
   width:100%;
   font-weight: bold;
+  background-color: #F5F5F5;
   a {
     margin-right: 5vw;
     color: #333333;
@@ -15,7 +16,6 @@
 
 .no-boxshadow .navbar {
   border-bottom: 1px solid rgb(204, 204, 204);
-  background-color: #F5F5F5;
 }
 
 
