@@ -13,18 +13,6 @@
   }
 }
 // video part
-.fas {
-  font-size: 56px;
-  margin-left: 3vw;
-}
-
-#word {
-  color:#23589B;
-}
-
-#excel {
-  color:#1B7346;
-}
 
 .playerbox {
   position:fixed;
@@ -34,10 +22,14 @@
 
 }
 
-.dictionary {
-  margin-top:2vw;
+#player {
   width:100%;
   height:70%;
+}
+
+.dictionary {
+  width:100%;
+  height:30%;
   background-color:#F8F8F8;
   border-radius: 5px;
   border-style: solid;
@@ -47,16 +39,36 @@
   }
 }
 
+//converter part
+
+.fas {
+  font-size: 56px;
+}
+
+#msword {
+  color:#23589B;
+  position:fixed;
+  top:13vw;
+  // right:0.5vw;
+}
+
+#msexcel {
+  color:#1B7346;
+  position:fixed;
+  top:18vw;
+  // right:0.5vw;
+}
+
 // select_all part
 #select_all{
   position:fixed;
   top:5vw;
-  right:0.5vw;
+  // right:0.5vw;
 
 }
 
 #select_none {
   position:fixed;
   top:9vw;
-  right:0.5vw;
+  // right:0.5vw;
 }

@@ -2,14 +2,18 @@
 <div class="ml-2 mr-7 mb-3" id="video_title">
   <h2><%= @subtitle.video_title %></h2>
 </div>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <%= render 'video' %>
     </div>
     <div class="col-md-6">
       <%= render 'subtitles' %>
     </div>
+    <div class="col-md-1">
+      <%= render 'select_all' %>
+      <%= render 'converter' %>
+    </div>
   </div>
 </div>
-<%= render 'select_all' %>
+
