@@ -1,12 +1,8 @@
   <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 <div class="playerbox">
   <div id="player" class="rounded"></div>
-  <div class="row ml-3">
-    <i id="word" class="fas fa-file-word"></i>
-    <i id="excel" class="fas fa-file-excel"></i>
-    <div class="dictionary">
-      <p>工事中<br>Coming soon...</p>
-    </div>
+  <div class="dictionary">
+    <p>工事中<br>Coming soon...</p>
   </div>
 </div>
 <script>
@@ -22,8 +18,6 @@
   var player;
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height: '360',
-      width: '500',
       videoId: '<%= @subtitle.video_id %>?autoplay=0',
       events: {
         'onReady': onPlayerReady,
