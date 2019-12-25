@@ -21,7 +21,7 @@
       videoId: '<%= @subtitle.video_id %>?autoplay=0',
       events: {
         'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
+        'onStateChange': onPlayerStateChange,
       }
     });
   }
@@ -30,6 +30,30 @@
   function onPlayerReady(event) {
     event.target.playVideo();
   }
+
+  function get_time(set_time) {
+   //get time from time stamp
+    ytPlayer = new YT.Player('player');
+    ytPlayer.seekTo(set_time);
+  }
+
+  // const click_item = document.querySelector('.cards-list-item');
+
+  // click_item.addEventListener('dblclick', () => {
+  //   //set time on youtube
+
+  //   }
+  // )
+
+   // ('#prev').click(function() {
+   //    if(playerReady) {
+   //         // get current time
+   //          let currentTime = ytPlayer.getCurrentTime();
+   //          // シークバーの移動
+   //       ytPlayer.seekTo(currentTime - 60);
+   //    }
+   // });
+
 
   // 5. The API calls this function when the player's state changes.
   //    The function indicates that when playing a video (state=1),
