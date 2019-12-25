@@ -8,8 +8,12 @@
   display: flex;
   flex-direction: row;
   justify-content:wrap;
+  border-radius: 5px;
   &:hover {
-  background-color: #F6F6F4;
+    background-color: #cccccc;
+    &:active{
+      background-color: #F6F6F4;
+    }
   }
 }
 // video part
