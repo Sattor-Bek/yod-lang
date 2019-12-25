@@ -1,5 +1,5 @@
 <%= render 'shared/navbar' %>
-<div class="ml-2 mr-7 mb-3" id="video_title">
+<div class="ml-2 mb-3" id="video_title">
   <h2><%= @subtitle.video_title %></h2>
 </div>
 <div class="container-fluid">
@@ -10,7 +10,7 @@
     <div class="col-md-6">
       <%= render 'subtitles' %>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1 col-sm-1">
       <%= render 'select_all' %>
       <%= render 'converter' %>
     </div>

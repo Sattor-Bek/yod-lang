@@ -9,7 +9,7 @@
         <%= simple_form_for @subtitle do |f| %>
     <div class="row ml-2 language-choice">
       <h4 class="ml-5 mr-2 mb-3 block"><strong>言語を選択:</strong></h4>
-      <%= select_tag "language",  options_for_select(["日本語(ja)", "英語(en)", "ロシア語(ru)", "ウズベク語(uz)", "フランス語(fr)"], "en"), class: "mr-5 mb-3" %>
+      <%= select_tag "language",  options_for_select(["英語(en)", "ロシア語(ru)", "ウズベク語(uz)","ブルトン語(br)", "フランス語(fr)", "日本語(ja)" ], "en"), class: "mr-5 mb-3" %>
     </div>
           <div class="row ml-5 mr-5 url_input" id="input_bar">
             <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=video_id' %>

@@ -1,6 +1,6 @@
 // main part
 #video_title{
-  margin-right: 20px;
+  margin-right: 60px;
 }
 
 // subtitle part
@@ -22,6 +22,12 @@
 
 }
 
+@media (max-width: 780px) {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
 #player {
   width:100%;
   height:70%;
@@ -40,6 +46,10 @@
   }
 }
 
+//side bar part
+#side_bar{
+  text-align: center;
+}
 
 // select_all part
 #select_all{
@@ -56,12 +66,14 @@
 }
 
 //converter part
+.converter_box {
+}
 
 .converter {
-  font-size: 56px;
+  font-size: 80px;
   &:hover {
     opacity:0.8;
-    font-size: 50px;
+    font-size: 75px;
     border-style: solid;
     border-radius: 5px;
   }
@@ -78,12 +90,13 @@
   color:#23589B;
   position:fixed;
   top:140px;
+  display:none;
 }
 
 #msexcel {
   color:#1B7346;
   position:fixed;
-  top:198px;
+  top:222px;
 }
 
 .markup-baloon {

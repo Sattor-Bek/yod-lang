@@ -18,6 +18,9 @@ class SubtitlesController < ApplicationController
       language = 'uz'
     elsif params[:language] == 'フランス語(fr)'
       language = 'fr'
+    elsif params[:language] == 'ブルトン語(br)'
+      language = 'br'
+
     else
       language = 'en'
     end
@@ -84,7 +87,7 @@ class SubtitlesController < ApplicationController
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'")
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
         { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
@@ -108,7 +111,7 @@ class SubtitlesController < ApplicationController
       end
     elsif language == 'ru'
       array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '')
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
         { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
@@ -132,7 +135,31 @@ class SubtitlesController < ApplicationController
       end
     elsif language == 'fr'
       array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '')
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
+        { start: node.attributes['start'].value, sentence: clean_sentence }
+      end
+
+      array_elements.delete_if {|hash| hash[:sentence].blank? }
+
+      sentences_array = array_elements.map do |hash_sentence|
+        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
+      end
+
+      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
+
+      prev = nil
+      segmented.map do |sentence|
+        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
+
+        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
+        {
+          start_timestamp: prev,
+          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+        }
+      end
+    elsif language == 'br'
+      array_elements = doc.css("transcript text").map do |node|
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
         { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
