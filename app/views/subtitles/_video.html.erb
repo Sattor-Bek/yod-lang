@@ -21,7 +21,7 @@
       videoId: '<%= @subtitle.video_id %>?autoplay=0',
       events: {
         'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange,
+        'onStateChange': onPlayerStateChange
       }
     });
   }
@@ -31,13 +31,21 @@
     event.target.playVideo();
   }
 
-  function get_time(set_time) {
-   //get time from time stamp
-    ytPlayer = new YT.Player('player');
-    ytPlayer.seekTo(set_time);
+  function set_time(value) {
+    const time_selected = parseInt(value);
+    console.log(time_selected);
   }
 
-  // const click_item = document.querySelector('.cards-list-item');
+  // function set_time(value) {
+  //  //get time from time stamp
+  //   // ytPlayer = new YT.Player('player', {
+  //   //   videoId: '<%= @subtitle.video_id %>?autoplay=0'
+  //   // });
+  //   // ytPlayer.seekTo(set_time)
+  //   const time_selected = parseFloat(value)
+  //   player.seekTo(seconds:time_selected, allowSeekAhead:Boolean):Void
+  // }
+    // const click_item = document.querySelector('.cards-list-item');
 
   // click_item.addEventListener('dblclick', () => {
   //   //set time on youtube
