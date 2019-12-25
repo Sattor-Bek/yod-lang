@@ -6,6 +6,7 @@
   </div>
 </div>
 <script>
+
   // 2. This code loads the IFrame Player API code asynchronously.
   var tag = document.createElement('script');
 
@@ -19,6 +20,9 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
       videoId: '<%= @subtitle.video_id %>?autoplay=0',
+      playerVars: {
+        start: 0
+      },
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -32,46 +36,16 @@
   }
 
   function set_time(value) {
-    const time_selected = parseInt(value);
-    console.log(time_selected);
+    player.seekTo(value);
   }
-
-  // function set_time(value) {
-  //  //get time from time stamp
-  //   // ytPlayer = new YT.Player('player', {
-  //   //   videoId: '<%= @subtitle.video_id %>?autoplay=0'
-  //   // });
-  //   // ytPlayer.seekTo(set_time)
-  //   const time_selected = parseFloat(value)
-  //   player.seekTo(seconds:time_selected, allowSeekAhead:Boolean):Void
-  // }
-    // const click_item = document.querySelector('.cards-list-item');
-
-  // click_item.addEventListener('dblclick', () => {
-  //   //set time on youtube
-
-  //   }
-  // )
-
-   // ('#prev').click(function() {
-   //    if(playerReady) {
-   //         // get current time
-   //          let currentTime = ytPlayer.getCurrentTime();
-   //          // シークバーの移動
-   //       ytPlayer.seekTo(currentTime - 60);
-   //    }
-   // });
-
 
   // 5. The API calls this function when the player's state changes.
   //    The function indicates that when playing a video (state=1),
   //    the player should play for six seconds and then stop.
   // var done = false;
   function onPlayerStateChange(event) {
-    // if (event.data == YT.PlayerState.PLAYING && !done) {
-    //   setTimeout(stopVideo, 6000);
-    //   done = true;
-    // }
+    if (event.data == YT.PlayerState.PLAYING) {
+    }
   }
   function stopVideo() {
     player.stopVideo();
