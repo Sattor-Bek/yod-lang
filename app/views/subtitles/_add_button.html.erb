@@ -1,0 +1,21 @@
+<div id="add_lang_box">
+  <button class="btn btn-success" id="add_lang_btn">言語追加</button>
+  <%= select_tag "language",  options_for_select({"日本語(ja)": 'ja',"英語(en)": 'en', "ロシア語(ru)": 'ru', "ウズベク語(uz)": 'uz',"ブルトン語(br)": 'br', "フランス語(fr)": 'fr'}) %>
+</div>
+
+<script>
+  const add_lang_btn = document.getElementById('add_lang_btn');
+  const dictionary = document.querySelector('.dictionary');
+
+  add_lang_btn.addEventListener('click', () => {
+    const language_choice = document.getElementById('language').value;
+    let element = React.createElement(
+      'div', {} , [
+      React.createElement()
+      ]
+      ),
+
+
+    }
+  )
+</script>
