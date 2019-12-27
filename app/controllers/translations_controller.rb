@@ -30,10 +30,10 @@ class TranslationsController < ApplicationController
       video_info = info_call_api(video_id)
       @translation = Translation.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title], url_id: url_id) do |translation|
           blocks_attributes = contents_call_api(video_id, language)
-          contents = { translation: {
+          contents = { subtitle: {
             blocks_attributes: blocks_attributes, language: language
           } }
-          translation.assign_attributes(contents[:translation])
+          translation.assign_attributes(contents[:subtitle])
       end
     end
 
@@ -42,7 +42,7 @@ class TranslationsController < ApplicationController
     if @translation.persisted?
       render subtitle_translation_path(@translation)
     elsif @translation == nil
-      redirect_to subtitle_path
+      render subtitle_path
     end
   end
 
@@ -70,7 +70,7 @@ class TranslationsController < ApplicationController
     file = open(url).read
     doc = Nokogiri::HTML(file)
 
-    raise translation::MissingtranslationsError if doc.css("transcript text").empty?
+    raise Translation::MissingTranslationsError if doc.css("transcript text").empty?
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|

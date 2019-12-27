@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   # additional
   has_many :subtitles
+  has_many :translations
   has_many :books
   has_many :cards, through: :books
 end

@@ -1,4 +1,14 @@
 <%= render 'shared/navbar' %>
+<% if @translation.errors.any? %>
+<div class="alert">
+  <ul>
+    <% @translation.errors.full_messages.each do |message| %>
+    <li class=""><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+
+<% end %>
 <div class="ml-2 mb-3" id="video_title">
   <h2><%= @translation.video_title %></h2>
 </div>
