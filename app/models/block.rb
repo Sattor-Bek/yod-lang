@@ -1,6 +1,5 @@
 class Block < ApplicationRecord
-  belongs_to :subtitle , :as => :user
-  belongs_to :translation
+  belongs_to :subtitle
   has_many :cards, dependent: :destroy
   validates :sentence, presence: true
 end
