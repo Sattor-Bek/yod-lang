@@ -1,0 +1,19 @@
+<%= render 'shared/navbar' %>
+<div class="ml-2 mb-3" id="video_title">
+  <h2><%= @translation.video_title %></h2>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'trans_video' %>
+    </div>
+    <div class="col-md-8">
+      <%= render 'trans_subtitles' %>
+    </div>
+    <div class="col-md-1 col-sm-2">
+      <%= render 'trans_select_all' %>
+      <%= render 'trans_converter' %>
+    </div>
+  </div>
+</div>
+

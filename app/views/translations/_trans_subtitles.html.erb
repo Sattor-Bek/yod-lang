@@ -1,0 +1,37 @@
+<div class="cards-container col-md-6">
+  <ul class="cards-list">
+     <% @translation.blocks.sort_by { |block| block.created_at }.each do |block| %>
+      <li class="cards-list-item" value="<%= block.start_timestamp %>" ondblclick="set_time(value)">
+        <span class="timestamp" style="display: none"><%= block.start_timestamp %></span>
+        <div class="checkbox">
+          <span class="results-cards m-0">
+            <span class="checkbox-container mr-3">
+              <input id="checkbox-<%= block.id %>" type="checkbox" name ="block_ids[]" class="block-checkbox" value="<%= block.id %>" >
+              <label for="checkbox-<%= block.id %>" class="checkbox-label"></label>
+            </span>
+            <p><%= block.sentence %></p>
+          </span>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div class="cards-container col-md-6">
+  <ul class="cards-list">
+     <% @subtitle = Subtitle.find_by(url_id: params[:subtitle_url_id])  %>
+     <% @subtitle.blocks.sort_by { |sub_block| sub_block.created_at }.each do |sub_block| %>
+      <li class="cards-list-item" value="<%= sub_block.start_timestamp %>" ondblclick="set_time(value)">
+        <span class="timestamp" style="display: none"><%= sub_block.start_timestamp %></span>
+        <div class="checkbox">
+          <span class="results-cards m-0">
+            <span class="checkbox-container mr-3">
+              <input id="checkbox-<%= sub_block.id %>" type="checkbox" name ="block_ids[]" class="sub_block-checkbox" value="<%= sub_block.id %>" >
+              <label for="checkbox-<%= sub_block.id %>" class="checkbox-label"></label>
+            </span>
+            <p><%= sub_block.sentence %></p>
+          </span>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

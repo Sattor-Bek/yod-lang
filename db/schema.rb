@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_22_184508) do
+ActiveRecord::Schema.define(version: 2019_12_27_002312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,9 @@ ActiveRecord::Schema.define(version: 2019_12_22_184508) do
     t.datetime "updated_at", null: false
     t.bigint "subtitle_id"
     t.string "start_timestamp"
+    t.bigint "translation_id"
     t.index ["subtitle_id"], name: "index_blocks_on_subtitle_id"
+    t.index ["translation_id"], name: "index_blocks_on_translation_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -66,6 +68,17 @@ ActiveRecord::Schema.define(version: 2019_12_22_184508) do
     t.index ["user_id"], name: "index_subtitles_on_user_id"
   end
 
+  create_table "translations", force: :cascade do |t|
+    t.string "video_title"
+    t.string "video_id"
+    t.string "language"
+    t.string "url_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_translations_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -81,8 +94,10 @@ ActiveRecord::Schema.define(version: 2019_12_22_184508) do
   end
 
   add_foreign_key "blocks", "subtitles"
+  add_foreign_key "blocks", "translations"
   add_foreign_key "books", "users"
   add_foreign_key "cards", "blocks"
   add_foreign_key "cards", "books"
   add_foreign_key "subtitles", "users"
+  add_foreign_key "translations", "users"
 end

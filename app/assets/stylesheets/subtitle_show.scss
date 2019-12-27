@@ -26,6 +26,13 @@
 
 }
 
+.trans_playbox{
+  position:fixed;
+  // top:13vw;
+  width:20%;
+  height:40vh;
+}
+
 @media (max-width: 780px) {
   position:relative;
   width:100%;
@@ -55,18 +62,22 @@
   text-align: center;
 }
 
+// add_language_button
+
+#add_lang_box {
+  position:fixed;
+  top:305px;
+}
+
 // select_all part
 #select_all{
   position:fixed;
   top:60px;
-  right:10px
-
 }
 
 #select_none {
   position:fixed;
   top:100px;
-  right:10px
 }
 
 //converter part
