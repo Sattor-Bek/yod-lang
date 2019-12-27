@@ -1,15 +1,15 @@
-class SubtitlesController < ApplicationController
+class TranslationsController < ApplicationController
   require 'uri'
   require 'cgi'
   require 'json'
   require 'open-uri'
   require 'nokogiri'
 
-  # before_action :authorize_subtitle, only: [:show, :new, :create]
-  before_action :set_subtitle, only: [:show, :edit, :update, :destroy, :result]
+  # before_action :authorize_translation, only: [:show, :new, :create]
+  before_action :set_translation, only: [:show, :edit, :update, :destroy, :result]
 
   def create
-    url = subtitle_params[:video_id]
+    url = params[:subtitle_url_id]
     if params[:language] == '日本語(ja)'
       language = 'ja'
     elsif params[:language] == 'ロシア語(ru)'
@@ -28,46 +28,32 @@ class SubtitlesController < ApplicationController
       video_id = parse_youtube(url)
       url_id = "(#{language})#{video_id}"
       video_info = info_call_api(video_id)
-      @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title], url_id: url_id) do |subtitle|
+      @translation = Translation.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title], url_id: url_id) do |translation|
           blocks_attributes = contents_call_api(video_id, language)
-          contents = { subtitle: {
+          contents = { translation: {
             blocks_attributes: blocks_attributes, language: language
           } }
-          subtitle.assign_attributes(contents[:subtitle])
+          translation.assign_attributes(contents[:translation])
       end
-    rescue Subtitle::MissingSubtitlesError
-      @subtitle = Subtitle.new
-      @subtitle.errors.add(:video_id, 'この動画では字幕が見つかりません。他の動画をお試しください。')
-    rescue NoMethodError
-      @subtitle = Subtitle.new(video_id: url)
-      @subtitle.errors.add(:video_id, '無効なURLです。')
     end
 
-    authorize_subtitle
+    authorize_translation
 
-    if @subtitle.persisted?
-      redirect_to subtitle_path(@subtitle)
-    elsif @subtitle == nil
-      redirect_to 'pages/home'
-    else
-      render 'pages/home'
+    if @translation.persisted?
+      render subtitle_translation_path(@translation)
+    elsif @translation == nil
+      redirect_to subtitle_path
     end
   end
 
   def show
-    authorize_subtitle
-    @translation = Translation.new
+    authorize_translation
   end
 
   private
 
   def parse_youtube(url)
-    u = URI.parse url
-    if u.path =~ /watch/
-      CGI::parse(u.query)["v"].first
-    else
-      u.path
-    end
+    url.split("").drop(4).join("")
   end
 
   def info_call_api(id)
@@ -84,7 +70,7 @@ class SubtitlesController < ApplicationController
     file = open(url).read
     doc = Nokogiri::HTML(file)
 
-    raise Subtitle::MissingSubtitlesError if doc.css("transcript text").empty?
+    raise translation::MissingtranslationsError if doc.css("transcript text").empty?
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
@@ -210,15 +196,16 @@ class SubtitlesController < ApplicationController
     end
   end
 
-  def authorize_subtitle
-    authorize @subtitle
+  def authorize_translation
+    authorize @translation
   end
 
-  def subtitle_params
-    params.require(:subtitle).permit(:video_id, :language)
+  def translation_params
+    params.require(:translation).permit(:language, :subtitle_url_id)
   end
 
-  def set_subtitle
-    @subtitle = Subtitle.find_by(url_id: params[:url_id])
+  def set_translation
+    @translation = Translation.find_by(url_id: params[:url_id])
   end
+
 end
