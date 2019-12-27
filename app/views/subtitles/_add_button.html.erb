@@ -1,21 +1,17 @@
 <div id="add_lang_box">
-  <button class="btn btn-success" id="add_lang_btn">言語追加</button>
-  <%= select_tag "language",  options_for_select({"日本語(ja)": 'ja',"英語(en)": 'en', "ロシア語(ru)": 'ru', "ウズベク語(uz)": 'uz',"ブルトン語(br)": 'br', "フランス語(fr)": 'fr'}) %>
+  <%= simple_form_for [@subtitle, @subtitle] do |f| %>
+  <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: "https://www.youtube.com/watch?v=#{@subtitle.video_id}"  %>
+  <%= select_tag "language",  options_for_select(["英語(en)", "ロシア語(ru)", "ウズベク語(uz)","ブルトン語(br)", "フランス語(fr)", "日本語(ja)" ], "en") %>
+  <%= f.button :submit, "字幕を取得", class: 'btn btn-success' %>
+  <% end %>
 </div>
 
 <script>
-  const add_lang_btn = document.getElementById('add_lang_btn');
-  const dictionary = document.querySelector('.dictionary');
+  // const add_lang_btn = document.getElementById('add_lang_btn');
 
-  add_lang_btn.addEventListener('click', () => {
-    const language_choice = document.getElementById('language').value;
-    let element = React.createElement(
-      'div', {} , [
-      React.createElement()
-      ]
-      ),
+  // add_lang_btn.addEventListener('click', () => {
+  //   const language_choice = document.getElementById('language').value;
 
-
-    }
-  )
+  //   }
+  // )
 </script>

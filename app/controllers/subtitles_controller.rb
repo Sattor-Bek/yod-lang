@@ -6,7 +6,7 @@ class SubtitlesController < ApplicationController
   require 'nokogiri'
 
   # before_action :authorize_subtitle, only: [:show, :new, :create]
-  before_action :set_subtitle, only: [:show, :edit, :update, :destroy]
+  before_action :set_subtitle, only: [:show, :edit, :update, :destroy, :result]
 
   def create
     url = subtitle_params[:video_id]
