@@ -2,16 +2,25 @@
   <%= simple_form_for ([@subtitle, @translation]) do |f| %>
   <% f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: "https://www.youtube.com/watch?v=#{@subtitle.video_id}"  %>
   <%= select_tag "language",  options_for_select(["英語(en)", "ロシア語(ru)", "ウズベク語(uz)","ブルトン語(br)", "フランス語(fr)", "日本語(ja)" ], "en") %>
-  <%= f.button :submit, "字幕を取得", class: 'btn btn-success' %>
-  <% end %>
+  <div id="sub_getter">
+    <%= f.button :submit, "字幕を取得", class: 'btn btn-success'%>
+    <% end %>
+    <div class="text-center">
+      <div class="lds-roller loading-show" id="loading"><strong>Loading...</strong></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-  // const add_lang_btn = document.getElementById('add_lang_btn');
+  const sub_getter_element = document.getElementById('sub_getter');
+  const loading_element = document.getElementById('loading');
 
-  // add_lang_btn.addEventListener('click', () => {
-  //   const language_choice = document.getElementById('language').value;
-
-  //   }
-  // )
+  sub_getter_element.addEventListener('click', () => {
+    loading_element.removeAttribute('id');
+  })
+  sub_getter_element.addEventListener('keydown', () => {
+    if(event.key === 'Enter') {
+      loading_element.removeAttribute('id');
+      }})
 </script>

@@ -5,7 +5,7 @@ class CreateTranslations < ActiveRecord::Migration[5.2]
       t.string :video_id
       t.string :language
       t.string :url_id
-      t.references :user, foreign_key: true
+      t.references :subtitle, foreign_key: true
 
       t.timestamps
     end

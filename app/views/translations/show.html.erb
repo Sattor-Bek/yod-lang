@@ -1,4 +1,13 @@
 <%= render 'shared/navbar' %>
+<% if @translation.errors.any? %>
+<div class="alert">
+  <ul>
+    <% @translation.errors.full_messages.each do |message| %>
+    <li class=""><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+</div>
 <div class="ml-2 mb-3" id="video_title">
   <h2><%= @translation.video_title %></h2>
 </div>
@@ -7,13 +16,12 @@
     <div class="col-md-3">
       <%= render 'trans_video' %>
     </div>
-    <div class="col-md-8">
+    <div class="row col-md-8">
       <%= render 'trans_subtitles' %>
     </div>
-    <div class="col-md-1 col-sm-2">
+    <div class="col-md-1 col-sm-1">
       <%= render 'trans_select_all' %>
       <%= render 'trans_converter' %>
     </div>
   </div>
 </div>
-

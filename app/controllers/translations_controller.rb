@@ -6,7 +6,7 @@ class TranslationsController < ApplicationController
   require 'nokogiri'
 
   # before_action :authorize_translation, only: [:show, :new, :create]
-  before_action :set_translation, only: [:show, :edit, :update, :destroy, :result]
+  before_action :set_translation, only: [:show, :edit, :update]
 
   def create
     url = params[:subtitle_url_id]
@@ -28,22 +28,23 @@ class TranslationsController < ApplicationController
       video_id = parse_youtube(url)
       url_id = "(#{language})#{video_id}"
       video_info = info_call_api(video_id)
-      @translation = Translation.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title], url_id: url_id) do |translation|
+      @translation = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_user, video_title: video_info[:title], url_id: url_id) do |translation|
           blocks_attributes = contents_call_api(video_id, language)
-          contents = { translation: {
+          contents = { subtitle: {
             blocks_attributes: blocks_attributes, language: language
           } }
-          translation.assign_attributes(contents[:translation])
+          translation.assign_attributes(contents[:subtitle])
       end
     end
 
     authorize_translation
-
+    @subtitle = Subtitle.find_by(url_id: params[:subtitle_url_id])
     if @translation.persisted?
-      render subtitle_translation_path(@translation)
+      redirect_to subtitle_translation_path(@subtitle, @translation)
     elsif @translation == nil
-      redirect_to subtitle_path
+      redirect_to subtitle_path(@subtitle)
     end
+
   end
 
   def show
@@ -70,7 +71,7 @@ class TranslationsController < ApplicationController
     file = open(url).read
     doc = Nokogiri::HTML(file)
 
-    raise translation::MissingtranslationsError if doc.css("transcript text").empty?
+    raise Translation::MissingTranslationsError if doc.css("transcript text").empty?
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
@@ -205,7 +206,7 @@ class TranslationsController < ApplicationController
   end
 
   def set_translation
-    @translation = Translation.find_by(url_id: params[:url_id])
+    @translation = Subtitle.find_by(url_id: params[:url_id])
   end
 
 end
