@@ -57,9 +57,10 @@ class SubtitlesController < ApplicationController
     authorize_subtitle
     @translation = Translation.new
     @blocks = Block.where(subtitle_id: @subtitle.id)
+
     respond_to do |format|
-      format.html
-      format.csv { render text: @blocks.as_csv(@blocks) }
+        format.html
+        format.csv { send_data @blocks.as_csv(@blocks) }
     end
   end
 
