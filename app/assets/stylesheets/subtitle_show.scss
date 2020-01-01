@@ -45,6 +45,7 @@
 }
 
 .dictionary {
+  display:none;
   width:100%;
   height:30%;
   background-color:#F8F8F8;
@@ -65,29 +66,24 @@
 // add_language_button
 
 #add_lang_box {
-  position:fixed;
-  top:305px;
 }
 
 // select_all part
 #select_all{
-  position:fixed;
-  bottom:60px;
   display:none;
 }
 
 #select_none {
-  position:fixed;
-  bottom:10px;
   display:none;
 }
 
 //converter part
 .converter_box {
-  position:fixed;
-  top:60px;
 }
 
+a {
+
+}
 .converter {
   font-size: 80px;
   &:hover {
@@ -108,7 +104,7 @@
 #csv {
   a {
     text-decoration: none;
-    color: 969696;
+    color: #969696;
   }
 }
 
