@@ -1,4 +1,10 @@
 <div class="converter_box">
+  <div>
+  <%= link_to subtitle_path(format: :csv), class: "btn btn-primary" do %>
+    <i class="fas fa-file-csv converter"></i>
+    <p class="markup-baloon">CSVに変換</p>
+  <% end %>
+  </div>
   <div id="msword">
     <i id="msword" class="fas fa-file-word converter"></i>
     <p class="markup-baloon">選択中の文章を<br>ワードに変換</p>
@@ -7,6 +13,4 @@
     <i id="msexcel" class="fas fa-file-excel converter"></i>
     <p class="markup-baloon">選択中の文章を<br>エクセルに変換</p>
   </div>
-  <br><br><br>
-  <%= link_to "CSV", subtitle_path(format: :csv), class: "btn btn-primary" %>
 </div>

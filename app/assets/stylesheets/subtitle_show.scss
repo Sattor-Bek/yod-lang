@@ -72,16 +72,20 @@
 // select_all part
 #select_all{
   position:fixed;
-  top:60px;
+  bottom:60px;
+  display:none;
 }
 
 #select_none {
   position:fixed;
-  top:100px;
+  bottom:10px;
+  display:none;
 }
 
 //converter part
 .converter_box {
+  position:fixed;
+  top:60px;
 }
 
 .converter {
@@ -101,17 +105,21 @@
 
 }
 
+#csv {
+  a {
+    text-decoration: none;
+    color: 969696;
+  }
+}
+
 #msword {
   color:#23589B;
-  position:fixed;
-  top:140px;
   display:none;
 }
 
 #msexcel {
   color:#1B7346;
-  position:fixed;
-  top:222px;
+  display:none;
 }
 
 .markup-baloon {
