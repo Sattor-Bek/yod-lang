@@ -59,7 +59,7 @@ class SubtitlesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render tex: @subtitle.to_csv(@subtitle) }
+      format.csv { render text: @subtitle.blocks.to_csv(@subtitle.blocks) }
     end
   end
 

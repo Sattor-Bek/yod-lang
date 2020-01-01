@@ -12,11 +12,11 @@ class Subtitle < ApplicationRecord
 
   def to_csv(value)
     CSV.generate do |csv|
-      column_names = %w(time sentence created_at updated_at)
+      column_names = %w(start_timestamp, sentence, created_at, updated_at)
       csv << column_names
-      value.blocks.each do |item|
+      value.each do |item|
         column_values = [
-          item.time,
+          item.start_timestamp,
           item.sentence,
           item.created_at,
           item.updated_at
