@@ -4,7 +4,6 @@ class SubtitlesController < ApplicationController
   require 'json'
   require 'open-uri'
   require 'nokogiri'
-
   # before_action :authorize_subtitle, only: [:show, :new, :create]
   before_action :set_subtitle, only: [:show, :edit, :update, :destroy, :result]
 
@@ -57,6 +56,7 @@ class SubtitlesController < ApplicationController
   def show
     authorize_subtitle
     @translation = Translation.new
+    @blocks = Block.all
   end
 
   private

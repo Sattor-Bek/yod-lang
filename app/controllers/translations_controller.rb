@@ -49,6 +49,11 @@ class TranslationsController < ApplicationController
 
   def show
     authorize_translation
+
+    respond_to do |format|
+      format.html
+      format.csv { render text: @translation.to_csv }
+    end
   end
 
   private
