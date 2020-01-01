@@ -56,6 +56,11 @@ class SubtitlesController < ApplicationController
   def show
     authorize_subtitle
     @translation = Translation.new
+
+    respond_to do |format|
+      format.html
+      format.csv { render tex: @subtitle.to_csv(@subtitle) }
+    end
   end
 
   private

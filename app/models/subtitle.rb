@@ -9,4 +9,20 @@ class Subtitle < ApplicationRecord
   def to_param
   return self.url_id
   end
+
+  def to_csv(value)
+    CSV.generate do |csv|
+      column_names = %w(time sentence created_at updated_at)
+      csv << column_names
+      value.blocks.each do |item|
+        column_values = [
+          item.time,
+          item.sentence,
+          item.created_at,
+          item.updated_at
+        ]
+        csv << column_values
+      end
+    end
+  end
 end
