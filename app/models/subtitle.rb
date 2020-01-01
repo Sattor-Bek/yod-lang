@@ -10,7 +10,7 @@ class Subtitle < ApplicationRecord
   return self.url_id
   end
 
-  def to_csv(value)
+  def self.to_csv(value)
     CSV.generate do |csv|
       column_names = %w(start_timestamp, sentence, created_at, updated_at)
       csv << column_names
