@@ -56,7 +56,6 @@ class SubtitlesController < ApplicationController
   def show
     authorize_subtitle
     @translation = Translation.new
-    @blocks = Block.all
   end
 
   private
