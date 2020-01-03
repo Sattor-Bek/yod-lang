@@ -43,20 +43,23 @@ class TranslationsController < ApplicationController
       @subtitle.errors.add(:video_id, '無効なURLです。')
     end
 
-    authorize_translation
     @subtitle = Subtitle.find_by(url_id: params[:subtitle_url_id])
-    if @translation.persisted?
-      redirect_to subtitle_translation_path(@subtitle, @translation)
-    elsif @translation == nil
+    if @translation != nil
+      authorize_translation
+      if @translation.persisted?
+        redirect_to subtitle_translation_path(@subtitle, @translation)
+      elsif @translation == nil
+        redirect_to subtitle_path(@subtitle)
+      end
+    else
+      skip_authorization
       redirect_to subtitle_path(@subtitle)
     end
 
   end
 
   def show
-    if @translation == nil
-      redirect_to subtitle_path(@subtitle)
-    else
+    if @translation != nil
       authorize_translation
 
       @blocks = Block.where(subtitle_id: @translation.id)
@@ -64,6 +67,9 @@ class TranslationsController < ApplicationController
           format.html
           format.csv { send_data @blocks.as_csv(@blocks) }
       end
+    else
+      skip_authorization
+      redirect_to subtitle_path(@subtitle)
     end
   end
 
