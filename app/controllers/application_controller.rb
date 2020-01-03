@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   def create_guest_user
     guest = User.new_guest
     guest.save!(:validate => false)
-    session[:guest_user_id] = guest.id
+    # session[:guest_user_id] = guest.id
     guest
   end
 end

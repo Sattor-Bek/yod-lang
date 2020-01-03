@@ -1,5 +1,7 @@
 <h2>ログイン</h2>
-<h3><%= link_to "ログインをスキップ(ゲストとしてログイン)", pages_guest_path, method: :post %></h3>
+<br>
+<h3><%= button_to "ログインをスキップ(ゲストとしてログイン)", pages_guest_path %></h3>
+<br>
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="form-inputs">
     <%= f.input :email,
