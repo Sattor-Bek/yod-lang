@@ -13,7 +13,7 @@ class SubtitlePolicy < ApplicationPolicy
     user_is_owner_or_admin?
   end
 
-  def choose_deck?
+  def choose_book?
     user_is_owner_or_admin?
   end
 

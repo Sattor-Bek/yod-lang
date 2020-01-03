@@ -4,5 +4,4 @@ class UsersController < ApplicationController
   def show
     @subtitle = Subtitle.new
   end
-
 end

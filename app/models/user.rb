@@ -8,4 +8,17 @@ class User < ApplicationRecord
   has_many :translations
   has_many :books
   has_many :cards, through: :books
+
+  def self.new_guest
+    new do |u|
+      u.user_name = "Guest"
+      u.email    = "guest_#{Time.now.to_i}#{rand(100)}@example.com"
+      u.password = "aaaaaa"
+      u.guest    = true
+    end
+  end
+
+  def move_to(user)
+    tasks.update_all(user_id: user.id)
+  end
 end

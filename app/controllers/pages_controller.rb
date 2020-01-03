@@ -5,4 +5,9 @@ class PagesController < ApplicationController
     @subtitle = Subtitle.new
   end
 
+  def guest
+    User.new_guest
+    redirect_to 'pages/home'
+  end
+
 end
