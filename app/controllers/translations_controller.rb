@@ -35,6 +35,12 @@ class TranslationsController < ApplicationController
           } }
           translation.assign_attributes(contents[:subtitle])
       end
+    rescue Subtitle::MissingSubtitlesError
+      @subtitle = Subtitle.new
+      @subtitle.errors.add(:video_id, 'この動画では字幕が見つかりません。他の動画をお試しください。')
+    rescue NoMethodError
+      @subtitle = Subtitle.new(video_id: url)
+      @subtitle.errors.add(:video_id, '無効なURLです。')
     end
 
     authorize_translation
@@ -48,11 +54,16 @@ class TranslationsController < ApplicationController
   end
 
   def show
-    authorize_translation
+    if @translation == nil
+      redirect_to subtitle_path(@subtitle)
+    else
+      authorize_translation
 
-    respond_to do |format|
-      format.html
-      format.csv { render text: @translation.to_csv }
+      @blocks = Block.where(subtitle_id: @translation.id)
+      respond_to do |format|
+          format.html
+          format.csv { send_data @blocks.as_csv(@blocks) }
+      end
     end
   end
 
@@ -76,7 +87,7 @@ class TranslationsController < ApplicationController
     file = open(url).read
     doc = Nokogiri::HTML(file)
 
-    raise Translation::MissingTranslationsError if doc.css("transcript text").empty?
+    raise Subtitle::MissingSubtitlesError if doc.css("transcript text").empty?
 
     if language == 'en'
       array_elements = doc.css("transcript text").map do |node|
