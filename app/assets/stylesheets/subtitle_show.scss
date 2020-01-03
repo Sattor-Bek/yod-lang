@@ -17,6 +17,9 @@
   }
 }
 // video part
+.checkbox-container {
+  display:none;
+}
 
 .playerbox {
   position:fixed;
@@ -60,7 +63,6 @@
 
 //side bar part
 #side_bar{
-  text-align: center;
 }
 
 // add_language_button
