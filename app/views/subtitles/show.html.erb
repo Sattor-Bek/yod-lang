@@ -4,20 +4,22 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-5">
-      <%= render 'video' %>
-    </div>
-    <div class="col-md-5">
-      <%= render 'subtitles' %>
-    </div>
-    <div class="col-md-2 col-sm-2 text-lefts fixed-bottom ml-2 mb-2">
-     <div class="container-fluid">
-        <div class="row">
-          <%= render 'add_button' %>
-          <%= render 'converter' %>
-          <%= render 'select_all' %>
+    <div class="col-md-6">
+      <div>
+        <%= render 'video' %>
+        <div class="d-flex ml-2 mb-5">
+         <div class="container-fluid">
+            <div class="row d-flex justify-content-between side_bar">
+              <%= render 'add_button' %>
+              <%= render 'converter' %>
+              <%= render 'select_all' %>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="col-md-6">
+      <%= render 'subtitles' %>
     </div>
   </div>
 </div>

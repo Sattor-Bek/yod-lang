@@ -24,16 +24,16 @@
 .playerbox {
   position:fixed;
   // top:13vw;
-  width:40%;
+  width:50%;
   height:70vh;
 
 }
 
-.trans_playbox{
+.trans_playerbox{
   position:fixed;
   // top:13vw;
-  width:20%;
-  height:40vh;
+  width:25%;
+  height:60vh;
 }
 
 @media (max-width: 780px) {
@@ -62,7 +62,9 @@
 }
 
 //side bar part
-#side_bar{
+.side_bar{
+  position:fixed;
+  top:75vh;
 }
 
 // add_language_button
@@ -121,7 +123,7 @@ a {
 }
 
 .markup-baloon {
-  width:130px;
+  width:100px;
   background-color:#F8F8F8;
   color:grey;
   font-size:10px;
