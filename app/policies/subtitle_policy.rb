@@ -10,16 +10,16 @@ class SubtitlePolicy < ApplicationPolicy
   end
 
   def show?
-    user_is_owner_or_admin?
+    true
   end
 
   def choose_book?
-    user_is_owner_or_admin?
+    true
   end
 
   private
 
   def user_is_owner_or_admin?
-    record.user == user || user.admin
+    record.user == user || user.admin if user != nil
   end
 end
