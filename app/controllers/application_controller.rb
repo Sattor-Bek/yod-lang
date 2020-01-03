@@ -59,9 +59,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_url if current_user.nil? || guest_user?
   end
 
-  # ユーザーがログインした際に一度だけ呼ばれる
-  # 通常のユーザーが作成され、Guestユーザーは削除されるので、
-  # Guest時に作成したデータを通常のユーザーに渡すなどの処理をする
+  # # ユーザーがログインした際に一度だけ呼ばれる
+  # # 通常のユーザーが作成され、Guestユーザーは削除されるので、
+  # # Guest時に作成したデータを通常のユーザーに渡すなどの処理をする
   def logging_in
     # taskのuser_idをGuestから通常のユーザーに移す
     guest_user.move_to(current_user)
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   def create_guest_user
     guest = User.new_guest
     guest.save!(:validate => false)
-    # session[:guest_user_id] = guest.id
+    session[:current_user_id] = guest.id
     guest
   end
 end

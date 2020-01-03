@@ -6,7 +6,8 @@ class PagesController < ApplicationController
   end
 
   def guest
-    create_guest_user
+    guest = create_guest_user
+    session[:current_user_id] = guest.id
     redirect_to(root_url)
   end
 
