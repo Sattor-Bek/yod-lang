@@ -6,10 +6,8 @@
     <li class=""><%= message %></li>
     <% end %>
   </ul>
-  <% end %>
-</div>
-
 <% end %>
+</div>
 <div class="ml-2 mb-3" id="video_title">
   <h2><%= @translation.video_title %></h2>
 </div>
@@ -17,14 +15,17 @@
   <div class="row">
     <div class="col-md-3">
       <%= render 'trans_video' %>
+      <div class="text-lefts ml-2 mb-5 side_bar">
+        <div class="container-fluid">
+          <div class="row">
+            <%= render 'trans_select_all' %>
+            <%= render 'trans_converter' %>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row col-md-8">
       <%= render 'trans_subtitles' %>
     </div>
-    <div class="col-md-1 col-sm-2">
-      <%= render 'trans_select_all' %>
-      <%= render 'trans_converter' %>
-    </div>
   </div>
 </div>
-
