@@ -10,25 +10,7 @@ class TranslationsController < ApplicationController
 
   def create
     url = params[:subtitle_url_id]
-    if params[:language] == '日本語(ja)'
-      language = 'ja'
-    elsif params[:language] == 'ロシア語(ru)'
-      language = 'ru'
-    elsif params[:language] == 'ウズベク語(uz)'
-      language = 'uz'
-    elsif params[:language] == 'フランス語(fr)'
-      language = 'fr'
-    elsif params[:language] == 'ブルトン語(br)'
-      language = 'br'
-    elsif params[:language] == 'スペイン語(es)'
-      language = 'es'
-    elsif params[:language] == 'タジク語(tg)'
-      language = 'tg'
-    elsif params[:language] == 'デンマーク語(da)'
-      language = 'da'
-    else
-      language = 'en'
-    end
+    language = params[:language]
     begin
       video_id = parse_youtube(url)
       url_id = "(#{language})#{video_id}"
