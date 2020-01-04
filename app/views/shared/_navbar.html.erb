@@ -1,8 +1,14 @@
 <div class="navbar fixed-top" >
   <ul class="nav-items">
+    <li><%= link_to "Home", root_path %></li>
     <% if user_signed_in? %>
-      <li><%= link_to "Home", root_path %></li>
-      <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+    <li>
+        <button class="btn btn-secondary btn dropdown-toggle" id="dropdownMenuButton" ><%= current_user.user_name %>としてログイン中</button>
+        <div class="dd-item">
+          <p><%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
+        </div>
+    </li>
+
     <% else %>
       <li class="nav-item">
         <%= link_to "Login", new_user_session_path, class: "nav-link" %>
@@ -10,3 +16,12 @@
     <% end %>
   </ul>
 </div>
+<script>
+  const dropdown = document.getElementById('dropdownMenuButton')
+  const item = document.querySelectorAll('.dd-item')
+
+  dropdown.addEventListener('click', () => {
+    if item.
+  });
+
+</script>

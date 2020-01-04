@@ -47,7 +47,7 @@ class SubtitlesController < ApplicationController
     if @subtitle.persisted?
       redirect_to subtitle_path(@subtitle)
     elsif @subtitle == nil
-      redirect_to 'pages/home'
+      redirect_to 'pages/home', notice:'字幕を取得できませんでした。'
     else
       render 'pages/home'
     end
