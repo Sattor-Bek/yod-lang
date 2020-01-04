@@ -19,7 +19,10 @@ class SubtitlesController < ApplicationController
       language = 'fr'
     elsif params[:language] == 'ブルトン語(br)'
       language = 'br'
-
+    elsif params[:language] == 'スペイン語(es)'
+      language = 'es'
+    elsif params[:language] == 'タジク語(tg)'
+      language = 'tg'
     else
       language = 'en'
     end
@@ -91,103 +94,7 @@ class SubtitlesController < ApplicationController
 
     raise Subtitle::MissingSubtitlesError if doc.css("transcript text").empty?
 
-    if language == 'en'
-      array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
-        { start: node.attributes['start'].value, sentence: clean_sentence }
-      end
-
-      array_elements.delete_if {|hash| hash[:sentence].blank? }
-
-      sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
-      end
-
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
-
-      prev = nil
-      segmented.map do |sentence|
-        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
-
-        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
-        {
-          start_timestamp: prev,
-          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
-        }
-      end
-    elsif language == 'ru'
-      array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
-        { start: node.attributes['start'].value, sentence: clean_sentence }
-      end
-
-      array_elements.delete_if {|hash| hash[:sentence].blank? }
-
-      sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
-      end
-
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
-
-      prev = nil
-      segmented.map do |sentence|
-        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
-
-        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
-        {
-          start_timestamp: prev,
-          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
-        }
-      end
-    elsif language == 'fr'
-      array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
-        { start: node.attributes['start'].value, sentence: clean_sentence }
-      end
-
-      array_elements.delete_if {|hash| hash[:sentence].blank? }
-
-      sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
-      end
-
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
-
-      prev = nil
-      segmented.map do |sentence|
-        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
-
-        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
-        {
-          start_timestamp: prev,
-          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
-        }
-      end
-    elsif language == 'br'
-      array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub('<i>', '').gsub('</i>', '').gsub('<b>', '').gsub('</b>', '').gsub('<strong>', '').gsub('</strong>', '')
-        { start: node.attributes['start'].value, sentence: clean_sentence }
-      end
-
-      array_elements.delete_if {|hash| hash[:sentence].blank? }
-
-      sentences_array = array_elements.map do |hash_sentence|
-        "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
-      end
-
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
-
-      prev = nil
-      segmented.map do |sentence|
-        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
-
-        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
-        {
-          start_timestamp: prev,
-          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
-        }
-      end
-    elsif language == 'ja'
+    if language == 'ja'
       array_elements = doc.css("transcript text").map do |node|
         clean_sentence = node.children.text.gsub(/\n/, ' ')
         clean_sentence += "。"
@@ -211,6 +118,31 @@ class SubtitlesController < ApplicationController
           start_timestamp: prev,
           sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
         }
+      end
+    else
+      array_elements = doc.css("transcript text").map do |node|
+          clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub(/<[^<>]*>/, '')
+          { start: node.attributes['start'].value, sentence: clean_sentence }
+      end
+
+      array_elements.delete_if {|hash| hash[:sentence].blank? }
+
+      sentences_array = array_elements.map do |hash_sentence|
+          "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
+      end
+
+      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
+
+      prev = nil
+      segmented.map do |sentence|
+        regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
+
+        prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
+        {
+          start_timestamp: prev,
+          sentence: sentence.gsub(/\[\d*?\.?\d*?\] /, '').strip
+        }
+
       end
     end
   end
