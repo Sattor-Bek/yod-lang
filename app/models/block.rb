@@ -5,14 +5,12 @@ class Block < ApplicationRecord
 
   def self.as_csv(value)
     CSV.generate do |csv|
-      column_names = %w(start_timestamp, sentence, created_at, updated_at)
+      column_names = %w(start_timestamp, sentence)
       csv << column_names
-      value.each do |item|
+      value.sort_by{ |block| block.created_at }.each do |item|
         column_values = [
           item.start_timestamp,
-          item.sentence,
-          item.created_at,
-          item.updated_at
+          item.sentence
         ]
         csv << column_values
       end

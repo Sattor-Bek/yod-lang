@@ -20,7 +20,12 @@ class TranslationsController < ApplicationController
       language = 'fr'
     elsif params[:language] == 'ブルトン語(br)'
       language = 'br'
-
+    elsif params[:language] == 'スペイン語(es)'
+      language = 'es'
+    elsif params[:language] == 'タジク語(tg)'
+      language = 'tg'
+    elsif params[:language] == 'デンマーク語(da)'
+      language = 'da'
     else
       language = 'en'
     end
