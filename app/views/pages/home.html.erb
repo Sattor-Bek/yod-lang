@@ -11,7 +11,7 @@
       <%= select_tag "language",  options_for_select(["英語(en)", "ロシア語(ru)", "ウズベク語(uz)","ブルトン語(br)", "フランス語(fr)", "日本語(ja)" ], "en"), class: "mr-5 mb-3" %>
     </div>
           <div class="row ml-5 mr-5 url_input" id="input_bar">
-            <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=video_id' %>
+            <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=' %>
             <div id="sub_getter">
             <%= f.button :submit, "字幕を取得", class: 'h-100 btn btn-primary' %>
             </div>
@@ -21,6 +21,21 @@
   </div>
   <div class="text-center">
     <div class="lds-roller loading-show" id="loading"><strong>Loading...</strong></div>
+  </div>
+  <div class="introduction mt-5 text-center">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <h3 class="ml-0">使い方</h3>
+        <ul class="text-left">
+          <li>①Youtube動画のリンクをアドレスバーに貼付け</li>
+          <li>②字幕の言語を選択（今の所英仏露＋αのみ）</li>
+          <li>③字幕を取得ボタンを押す</li>
+          <li>④CSVボタンを押してCVSファイルに変換</li>
+        </ul>
+      </div>
+      <div class="col-4"></div>
+    </div>
   </div>
 </div>
 <script>
