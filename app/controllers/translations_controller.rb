@@ -24,6 +24,8 @@ class TranslationsController < ApplicationController
       language = 'es'
     elsif params[:language] == 'タジク語(tg)'
       language = 'tg'
+    elsif params[:language] == 'デンマーク語(da)'
+      language = 'da'
     else
       language = 'en'
     end

@@ -24,7 +24,7 @@ class SubtitlesController < ApplicationController
     elsif params[:language] == 'タジク語(tg)'
       language = 'tg'
     elsif params[:language] == 'デンマーク語(da)'
-      langauge = 'da'
+      language = 'da'
     else
       language = 'en'
     end
