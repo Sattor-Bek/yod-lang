@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/yodlnovw/public_html/yod-lang
-    - cp -r * $DEPLOYPATH
+    - /bin/cp -R images $DEPLOYPATH
