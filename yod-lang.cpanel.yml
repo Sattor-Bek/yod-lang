@@ -1,5 +1,5 @@
 ---
 deployment:
- tasks:
- - export DEPLOYPATH=/home/yodlovw/public_html/
-    - /bin/cp -R /home/yodlovw/github.com/Sattor-Bek/yod-lang $DEPLOYPATH
+  tasks:
+    - export DEPLOYPATH=/home/yodlovw/public_html
+    - /bin/cp -r * $DEPLOYPATH
