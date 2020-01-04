@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/yodlovw/public_html
+    - export DEPLOYPATH=/home/yodlovw/public_html/yod-lang
     - /bin/cp -r * $DEPLOYPATH
