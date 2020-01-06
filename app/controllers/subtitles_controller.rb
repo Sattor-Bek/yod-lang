@@ -80,8 +80,7 @@ class SubtitlesController < ApplicationController
 
     if language == 'ja'
       array_elements = doc.css("transcript text").map do |node|
-        clean_sentence = node.children.text.gsub(/\n/, ' ')
-        clean_sentence += "。"
+        clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '"').gsub('&#39;', "'").gsub(/<[^<>]*>/, '').gsub('&nbsp;', '').gsub('&lt;', '<').gsub('&gt;', '').gsub('&amp;', '&')
         { start: node.attributes['start'].value, sentence: clean_sentence }
       end
 
@@ -91,9 +90,8 @@ class SubtitlesController < ApplicationController
         "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
       end
 
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" "), language: 'ja').segment
       prev = nil
-      segmented.map do |sentence|
+      sentences_array.map do |sentence|
         sentence.gsub!('。', ' ')
         regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
 
@@ -105,20 +103,17 @@ class SubtitlesController < ApplicationController
       end
     else
       array_elements = doc.css("transcript text").map do |node|
-          clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '').gsub('&#39;', "'").gsub(/<[^<>]*>/, '')
+          clean_sentence = node.children.text.gsub(/\n/, ' ').gsub(/\(.*?\)/, '').gsub(/\[/, '').gsub(/\]/, '').gsub('&quot;', '"').gsub('&#39;', "'").gsub(/<[^<>]*>/, '').gsub('&nbsp;', '').gsub('&lt;', '<').gsub('&gt;', '').gsub('&amp;', '&')
           { start: node.attributes['start'].value, sentence: clean_sentence }
       end
-
       array_elements.delete_if {|hash| hash[:sentence].blank? }
 
       sentences_array = array_elements.map do |hash_sentence|
           "[#{hash_sentence[:start]}] #{hash_sentence[:sentence]}"
       end
 
-      segmented = PragmaticSegmenter::Segmenter.new(text: sentences_array.join(" ")).segment
-
       prev = nil
-      segmented.map do |sentence|
+      sentences_array.map do |sentence|
         regex_match = sentence.match(/\[\d*?\.?\d*?\]/)
 
         prev = regex_match[0].gsub(/\[|\]/, '') if regex_match.present?
