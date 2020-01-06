@@ -7,6 +7,7 @@ class TranslationsController < ApplicationController
 
   # before_action :authorize_translation, only: [:show, :new, :create]
   before_action :set_translation, only: [:show, :edit, :update]
+  skip_after_action :verify_policy_scoped, :only => :index
 
   def create
     url = params[:subtitle_url_id]
@@ -58,6 +59,10 @@ class TranslationsController < ApplicationController
       skip_authorization
       redirect_to subtitle_path(@subtitle)
     end
+  end
+
+  def index
+    redirect_to subtitle_path(@subtitle)
   end
 
   private
