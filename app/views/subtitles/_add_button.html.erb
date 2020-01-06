@@ -1,7 +1,7 @@
 <div id="add_lang_box">
   <%= simple_form_for ([@subtitle, @translation]) do |f| %>
   <% f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: "https://www.youtube.com/watch?v=#{@subtitle.video_id}"  %>
-  <%= select_tag "language",  options_for_select(['日本語(ja)', '英語(en)','ウズベク語(uz)', 'スペイン語(es)', 'タジク語(tg)', 'デンマーク語(da)', 'フランス語(fr)','ブルトン語(br)', 'ロシア語(ru)'], "en") %>
+  <%= select_tag "language",  options_for_select([['日本語(ja)', 'ja'], ['英語(en)', 'en'], ['ウズベク語(uz)', 'uz'], ['スペイン語(es)', 'es'], ['タジク語(tg)', 'tg'], ['デンマーク語(da)', 'da'], ['フランス語(fr)', 'fr'], ['ブルトン語(br)', 'br'], ['ロシア語(ru)', 'ru']]) %>
   <div id="sub_getter">
     <%= f.button :submit, "他の字幕を取得", class: 'btn btn-success'%>
     <% end %>
