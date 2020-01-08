@@ -48,12 +48,14 @@ class TranslationsController < ApplicationController
 
   def show
     if @translation != nil
-      authorize_translation
 
-      @blocks = Block.where(subtitle_id: @translation.id)
+      authorize_translation
+      @subtitle = Subtitle.find_by(url_id: params[:subtitle_url_id])
+      @sub_blocks = Block.where(subtitle_id: @subtitle.id)
+      @trans_blocks = Block.where(subtitle_id: @translation.id)
       respond_to do |format|
           format.html
-          format.csv { send_data @blocks.as_csv(@blocks) }
+          format.csv { send_data Block.to_csv(@sub_blocks, @trans_blocks) }
       end
     else
       skip_authorization
