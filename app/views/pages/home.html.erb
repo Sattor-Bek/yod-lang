@@ -4,13 +4,12 @@
     <h1 class="text-center">Yod-lang</h1>
     <h2 class="text-center">YouTube字幕を語学学習に活用</h2>
   </div>
-  <% if languages != nil %>
+  <% if @languages != nil %>
     <%=  render 'form' %>
   <% else %>
   <div class="container">
     <div class="box">
-    <% languages = GetLanguageList.call_api(video_url) %>
-    <%= simple_form_for languages do |f| %>
+    <%= simple_form_for @languages do |f| %>
       <%= f.input :video_url, label: false, wrapper_html: {class: ''}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=' %>
         <div>
         <%= f.button :submit, "字幕リストを取得", class: 'h-100 btn btn-primary' %>

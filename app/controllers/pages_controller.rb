@@ -2,6 +2,8 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:home, :guest, :new_guest]
 
   def home
+    video_url = params[:video_url]
+    # @languages = GetLanguageList.call_api(video_url)
     @subtitle = Subtitle.new
   end
 
@@ -18,5 +20,4 @@ class PagesController < ApplicationController
     sign_in user
     redirect_to root_path, notice: 'ゲストユーザーとしてログインしました。'
   end
-
 end
