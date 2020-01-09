@@ -1,6 +1,5 @@
   require 'uri'
   require 'cgi'
-  require 'json'
   require 'open-uri'
   require 'nokogiri'
 
