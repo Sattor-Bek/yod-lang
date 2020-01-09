@@ -4,22 +4,20 @@
     <h1 class="text-center">Yod-lang</h1>
     <h2 class="text-center">YouTube字幕を語学学習に活用</h2>
   </div>
-   <div class="container">
+  <% if @languages == nil %>
+  <div class="container">
     <div class="box">
-        <%= simple_form_for @subtitle do |f| %>
-    <div class="row ml-2 language-choice">
-      <h4 class="ml-5 mr-2 mb-3 block"><strong>言語を選択:</strong></h4>
-      <%= select_tag "language",  options_for_select([['日本語(ja)', 'ja'], ['英語(en)', 'en'], ['ウズベク語(uz)', 'uz'], ['スペイン語(es)', 'es'], ['タジク語(tg)', 'tg'], ['デンマーク語(da)', 'da'], ['フランス語(fr)', 'fr'], ['ブルトン語(br)', 'br'], ['ロシア語(ru)', 'ru']]), class: "mr-5 mb-3" %>
+    <%= simple_form_for @languages do |f| %>
+      <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=' %>
+      <div id="sub_getter">
+      <%= f.button :submit, "字幕を取得", class: 'h-100 btn btn-primary' %>
+      </div>
     </div>
-          <div class="row ml-5 mr-5 url_input" id="input_bar">
-            <%= f.input :video_id, label: false, wrapper_html: {class: 'flex-grow-1 m-1'}, input_html: {class: 'h-100'}, placeholder: 'https://www.youtube.com/watch?v=' %>
-            <div id="sub_getter">
-            <%= f.button :submit, "字幕を取得", class: 'h-100 btn btn-primary' %>
-            </div>
-          </div>
-        <% end %>
-    </div>
+    <% end %>
   </div>
+  <% else %>
+  <%=  render 'form' %>
+  <%= end %>
   <div class="text-center">
     <div class="lds-roller loading-show" id="loading"><strong>Loading...</strong></div>
   </div>
