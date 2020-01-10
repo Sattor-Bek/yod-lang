@@ -9,8 +9,7 @@ class GetLanguageList
     file = open(url).read
     doc = Nokogiri::HTML(file)
     doc.css('transcript_list').children.map do |node|
-      { choice: node['lang_original'],
-        value: node['lang_code'] }
+      [node['lang_original'], node['lang_code']]
     end
   end
 end
