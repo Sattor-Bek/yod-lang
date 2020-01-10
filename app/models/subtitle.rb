@@ -6,7 +6,6 @@ class Subtitle < ApplicationRecord
   validates :user, presence: true
   accepts_nested_attributes_for :blocks
 
-  serialize :language_list, Array
   def to_param
   return self.url_id
   end
