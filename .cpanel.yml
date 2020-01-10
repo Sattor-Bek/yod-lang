@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/yodlnovw/public_html
-    - cp -r * $DEPLOYPATH
+    - /bin/cp -r * $DEPLOYPATH
