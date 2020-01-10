@@ -41,7 +41,7 @@ class SubtitlesController < ApplicationController
     else
       url = params[:subtitle][:video_id]
       video_id = parse_url(url)
-      @subtitle = Subtitle.new(video_id: video_id,
+      @subtitle = Subtitle.find_or_create_by(video_id: video_id,
                                 user: current_or_guest_user,
                                 video_title: video_info[:title],
                                 url_id: url_id)
