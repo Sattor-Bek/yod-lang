@@ -4,11 +4,7 @@
     <h1 class="text-center">Yod-lang</h1>
     <h2 class="text-center">YouTube字幕を語学学習に活用</h2>
   </div>
-  <% if @subtitle.language_list == nil %>
-    <%= render 'form_for_language_list' %>
-  <% else %>
-    <%=  render 'form_for_subtitles' %>
-  <% end %>
+  <%= render 'form_for_language_list' %>
   <div class="text-center">
     <div class="lds-roller loading-show" id="loading"><strong>Loading...</strong></div>
   </div>
