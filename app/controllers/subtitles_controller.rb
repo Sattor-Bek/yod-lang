@@ -9,13 +9,39 @@ class SubtitlesController < ApplicationController
   skip_after_action :verify_policy_scoped, :only => :index
 
   def create
-    url = subtitle_params[:video_id]
+    url = params[:subtitle][:video_id]
+    video_id = parse_url(url)
+    url_id = video_id
+    video_info = GetVideoInfo.call_api(video_id)
+    language_list = GetLanguageList.call_api(video_id)
+    @subtitle = Subtitle.find_or_create_by(video_id: video_id,
+                              user: current_or_guest_user,
+                              video_title: video_info[:title],
+                              url_id: url_id,
+                              language_list: language_list)
+    authorize_subtitle
+    redirect_to subtitle_path(@subtitle)
+  end
+
+  def edit
+  end
+
+  def update
     language = params[:language]
+    video_id = params[:url_id]
+    url_id = "(#{language})#{video_id}"
+    video_id = @subtitle.video_id
+    user = @subtitle.user
+    video_title = @subtitle.video_title
+    language_list = @subtitle.language_list
     begin
-      video_id = parse_youtube(url)
-      url_id = "(#{language})#{video_id}"
-      video_info = GetVideoInfo.call_api(video_id)
-      @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_or_guest_user, video_title: video_info[:title], url_id: url_id) do |subtitle|
+      # video_id = parse_youtube(url)
+      @subtitle = Subtitle.find_or_create_by(language: language,
+                                              video_id: video_id,
+                                              user: user,
+                                              video_title: video_title,
+                                              url_id: url_id,
+                                              language_list: language_list) do |subtitle|
           blocks_attributes = GetSubtitle.call_api(video_id, language)
           contents = { subtitle: {
             blocks_attributes: blocks_attributes, language: language
@@ -43,6 +69,7 @@ class SubtitlesController < ApplicationController
 
   def show
     authorize_subtitle
+
     @translation = Translation.new
     @blocks = Block.where(subtitle_id: @subtitle.id)
 
@@ -58,13 +85,18 @@ class SubtitlesController < ApplicationController
 
   private
 
-  def parse_youtube(url)
-    u = URI.parse url
-    if u.path =~ /watch/
-      CGI::parse(u.query)["v"].first
-    else
-      u.path
-    end
+  # def parse_youtube(url)
+  #   u = URI.parse url
+  #   if u.path =~ /watch/
+  #     CGI::parse(u.query)["v"].first
+  #   else
+  #     u.path
+  #   end
+  # end
+
+  def parse_url(url)
+    regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
+    url.match(regex)[1]
   end
 
   def authorize_subtitle

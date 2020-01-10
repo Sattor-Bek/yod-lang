@@ -10,7 +10,11 @@
         <div class="d-flex ml-2 mb-5">
          <div class="container-fluid">
             <div class="row d-flex justify-content-between side_bar">
+              <% if @subtitle.language !=nil %>
+              <%= render 'add_another_button' %>
+              <% else %>
               <%= render 'add_button' %>
+              <% end %>
               <%= render 'converter' %>
               <%= render 'select_all' %>
             </div>
