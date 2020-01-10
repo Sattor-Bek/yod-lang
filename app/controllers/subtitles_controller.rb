@@ -9,35 +9,42 @@ class SubtitlesController < ApplicationController
   skip_after_action :verify_policy_scoped, :only => :index
 
   def create
-    url = subtitle_params[:video_id]
-    language = params[:language]
-    begin
-      video_id = parse_youtube(url)
-      url_id = "(#{language})#{video_id}"
-      video_info = GetVideoInfo.call_api(video_id)
-      @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_or_guest_user, video_title: video_info[:title], url_id: url_id) do |subtitle|
-          blocks_attributes = GetSubtitle.call_api(video_id, language)
-          contents = { subtitle: {
-            blocks_attributes: blocks_attributes, language: language
-          } }
-          subtitle.assign_attributes(contents[:subtitle])
+    if language = params[:language]
+      begin
+        # video_id = parse_youtube(url)
+        url_id = "(#{language})#{video_id}"
+        video_info = GetVideoInfo.call_api(video_id)
+        @subtitle = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_or_guest_user, video_title: video_info[:title], url_id: url_id) do |subtitle|
+            blocks_attributes = GetSubtitle.call_api(video_id, language)
+            contents = { subtitle: {
+              blocks_attributes: blocks_attributes, language: language
+            } }
+            subtitle.assign_attributes(contents[:subtitle])
+        end
+      rescue Subtitle::MissingSubtitlesError
+        @subtitle = Subtitle.new
+        @subtitle.errors.add(:video_id, 'この動画では字幕が見つかりません。他の動画をお試しください。')
+      rescue NoMethodError
+        @subtitle = Subtitle.new(video_id: url)
+        @subtitle.errors.add(:video_id, '無効なURLです。')
       end
-    rescue Subtitle::MissingSubtitlesError
-      @subtitle = Subtitle.new
-      @subtitle.errors.add(:video_id, 'この動画では字幕が見つかりません。他の動画をお試しください。')
-    rescue NoMethodError
-      @subtitle = Subtitle.new(video_id: url)
-      @subtitle.errors.add(:video_id, '無効なURLです。')
-    end
 
-    authorize_subtitle
+      authorize_subtitle
 
-    if @subtitle.persisted?
-      redirect_to subtitle_path(@subtitle)
-    elsif @subtitle == nil
-      redirect_to root_path notice:'字幕を取得できませんでした。'
+      if @subtitle.persisted?
+        redirect_to subtitle_path(@subtitle)
+      elsif @subtitle == nil
+        redirect_to root_path notice:'字幕を取得できませんでした。'
+      else
+        render 'pages/home'
+      end
     else
-      render 'pages/home'
+      url = params[:subtitle][:video_id]
+      video_id = parse_url(url)
+      @subtitle = Subtitle.new
+      @subtitle.language_list = GetLanguageList.call_api(video_id)
+      authorize_subtitle
+      render root_path(@subtitle)
     end
   end
 
@@ -58,13 +65,18 @@ class SubtitlesController < ApplicationController
 
   private
 
-  def parse_youtube(url)
-    u = URI.parse url
-    if u.path =~ /watch/
-      CGI::parse(u.query)["v"].first
-    else
-      u.path
-    end
+  # def parse_youtube(url)
+  #   u = URI.parse url
+  #   if u.path =~ /watch/
+  #     CGI::parse(u.query)["v"].first
+  #   else
+  #     u.path
+  #   end
+  # end
+
+  def parse_url(url)
+    regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
+    url.match(regex)[1]
   end
 
   def authorize_subtitle
