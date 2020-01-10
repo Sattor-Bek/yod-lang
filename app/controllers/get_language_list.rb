@@ -4,10 +4,10 @@
   require 'nokogiri'
 
 class GetLanguageList
-  # def parse_url(url)
-  #   regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
-  #   url.match(regex)[1]
-  # end
+  def parse_url(url)
+    regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
+    url.match(regex)[1]
+  end
 
   def self.call_api(video_url)
     if video_url != nil
