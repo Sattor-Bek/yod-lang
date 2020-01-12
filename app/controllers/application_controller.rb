@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   require 'csv'
+  require 'date'
     # [...]
   before_action :authenticate_user!
   include Pundit

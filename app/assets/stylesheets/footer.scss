@@ -1,0 +1,16 @@
+.footer {
+  width:100%;
+  height:25px;
+  background-color: #F5F5F5;
+  text-align:center;
+  // a {
+  //   margin-right: 5vw;
+  //   color: #333333;
+  //   &:hover {
+  //     text-decoration: none;
+  //     color: #1A7246;
+  //   }
+  // }
+  -webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.25);
+          box-shadow:0 1px 1px rgba(0, 0, 0, 0.25);
+}
