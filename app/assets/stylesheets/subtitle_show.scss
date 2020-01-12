@@ -19,13 +19,16 @@
     height:39vh;
   }
 }
+
+
 .trans-cards-container {
   @media (max-width: 768px) {
     position:fixed;
-    top:65vh;
+    top:50vh;
     overflow-x: scroll;
     overflow-wrap: break-word;
     height:39vh;
+    z-index: 10;
   }
 }
 .results-cards {
@@ -63,9 +66,10 @@
   width:25%;
   height:60vh;
   @media (max-width: 768px) {
-    position: top;
+    position:relative;
     width:90%;
-    height:50%;
+    height:40%;
+    z-index: 100;
   }
 }
 
@@ -99,6 +103,15 @@
   }
 }
 
+.trans_side_bar{
+  position:fixed;
+  top:75vh;
+  @media (max-width: 768px) {
+    top:45vh;
+    right:30px;
+  }
+}
+
 // add_language_button
 
 #add_lang_box {
@@ -124,7 +137,7 @@ a {
   font-size: 60px;
   &:hover {
     opacity:0.8;
-    font-size: 75px;
+    font-size: 55px;
     border-style: solid;
     border-radius: 5px;
   }
