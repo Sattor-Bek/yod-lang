@@ -1,7 +1,7 @@
 // main part
 #video_title{
   margin-right: 60px;
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     h2 {
       font-size:12px;
     }
@@ -11,7 +11,7 @@
 
 // subtitle part
 .cards-container{
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     position:fixed;
     top:65vh;
     overflow-x: scroll;
@@ -20,15 +20,13 @@
   }
 }
 
-
 .trans-cards-container {
-  @media (max-width: 768px) {
-    position:fixed;
-    top:50vh;
+  @media (max-width: 760px) {
+    position:relative;
+    top:0vh;
     overflow-x: scroll;
     overflow-wrap: break-word;
-    height:39vh;
-    z-index: 10;
+    height:60vh;
   }
 }
 .results-cards {
@@ -53,7 +51,7 @@
   // top:13vw;
   width:50%;
   height:70vh;
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     position: top;
     width:90%;
     height:50%;
@@ -65,11 +63,11 @@
   // top:13vw;
   width:25%;
   height:60vh;
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     position:relative;
-    width:90%;
-    height:40%;
-    z-index: 100;
+    width:80%;
+    height:100%;
+    margin-left: 15vw;
   }
 }
 
@@ -97,7 +95,7 @@
 .side_bar{
   position:fixed;
   top:75vh;
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     top:55vh;
     margin-left: 40vw;
   }
@@ -106,9 +104,9 @@
 .trans_side_bar{
   position:fixed;
   top:75vh;
-  @media (max-width: 768px) {
-    top:45vh;
-    right:30px;
+  @media (max-width: 760px) {
+    top:15vh;
+    left:1vw;
   }
 }
 
