@@ -1,4 +1,4 @@
-<div class="cards-container col-md-6">
+<div class="trans-cards-container col-6">
   <ul class="cards-list">
      <% @sub_blocks.sort_by { |sub_block| sub_block.created_at }.each do |sub_block| %>
       <li class="cards-list-item" value="<%= sub_block.start_timestamp %>" ondblclick="set_time(value)">
@@ -16,7 +16,7 @@
     <% end %>
   </ul>
 </div>
-<div class="cards-container col-md-6">
+<div class="trans-cards-container col-6">
   <ul class="cards-list">
      <% @trans_blocks.sort_by { |block| block.created_at }.each do |block| %>
       <li class="cards-list-item" value="<%= block.start_timestamp %>" ondblclick="set_time(value)">
