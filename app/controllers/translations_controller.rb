@@ -16,7 +16,8 @@ class TranslationsController < ApplicationController
       video_id = parse_youtube(url)
       url_id = "(#{language})#{video_id}"
       video_info = GetVideoInfo.call_api(video_id)
-      @translation = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_or_guest_user, video_title: video_info[:title], url_id: url_id) do |translation|
+      language_list = GetLanguageList.call_api(video_id)
+      @translation = Subtitle.find_or_create_by(language: language, video_id: video_id, user: current_or_guest_user, video_title: video_info[:title], url_id: url_id, language_list: language_list) do |translation|
           blocks_attributes = GetSubtitle.call_api(video_id, language)
           contents = { subtitle: {
             blocks_attributes: blocks_attributes, language: language
