@@ -12,7 +12,6 @@ class SubtitlesController < ApplicationController
     url = params[:subtitle][:video_id]
     video_id = parse_url(url)
     unless video_id.nil?
-      raise
       url_id = video_id
       video_info = GetVideoInfo.call_api(video_id)
       language_list = GetLanguageList.call_api(video_id)
