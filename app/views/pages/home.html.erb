@@ -36,6 +36,7 @@
   })
   sub_getter_element.addEventListener('keydown', () => {
     if(event.key === 'Enter') {
-      # loading_element.removeAttribute('id');
+      document.getElementById("loading").classList.remove("loader_before");
+      document.getElementById("loading_message").classList.remove("loader_before");
       }})
 </script>
