@@ -11,16 +11,24 @@ class SubtitlesController < ApplicationController
   def create
     url = params[:subtitle][:video_id]
     video_id = parse_url(url)
-    url_id = video_id
-    video_info = GetVideoInfo.call_api(video_id)
-    language_list = GetLanguageList.call_api(video_id)
-    @subtitle = Subtitle.find_or_create_by(video_id: video_id,
-                              user: current_or_guest_user,
-                              video_title: video_info[:title],
-                              url_id: url_id,
-                              language_list: language_list)
-    authorize_subtitle
-    redirect_to subtitle_path(@subtitle)
+    unless video_id.nil?
+      raise
+      url_id = video_id
+      video_info = GetVideoInfo.call_api(video_id)
+      language_list = GetLanguageList.call_api(video_id)
+      @subtitle = Subtitle.find_or_create_by(video_id: video_id,
+                                user: current_or_guest_user,
+                                video_title: video_info[:title],
+                                url_id: url_id,
+                                language_list: language_list)
+      authorize_subtitle
+      redirect_to subtitle_path(@subtitle)
+    else
+      skip_authorization
+      flash[:alert] =  "エラーが発生しました"
+      redirect_to root_path
+
+    end
   end
 
   def edit
@@ -96,7 +104,7 @@ class SubtitlesController < ApplicationController
 
   def parse_url(url)
     regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
-    url.match(regex)[1]
+    url.match(regex)[1] unless url.match(regex).nil?
   end
 
   def authorize_subtitle
