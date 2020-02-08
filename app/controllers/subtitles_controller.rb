@@ -25,7 +25,7 @@ class SubtitlesController < ApplicationController
       redirect_to subtitle_path(@subtitle)
     else
       skip_authorization
-      flash[:alert] =  "エラーが発生しました"
+      flash[:alert] =  "URLが正しくありません"
       redirect_to root_path
 
     end
