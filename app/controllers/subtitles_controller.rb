@@ -96,7 +96,7 @@ class SubtitlesController < ApplicationController
 
   def parse_url(url)
     regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
-    url.match(regex)[1]
+    url != "" ? url.match(regex)[1] : redirect_to root_path notice:'字幕を取得できませんでした。'
   end
 
   def authorize_subtitle
