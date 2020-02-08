@@ -6,7 +6,7 @@
     margin: 0 auto;
   }
   
-  #loader-1:before, #loader-1:after{
+  #loading:before, #loading:after{
     content: "";
     position: absolute;
     top: -10px;
@@ -18,12 +18,12 @@
     border-top-color: #3498db;
   }
   
-  #loader-1:before{
+  #loading:before{
     z-index: 100;
     animation: spin 1s infinite;
   }
   
-  #loader-1:after{
+  #loading:after{
     border: 10px solid #ccc;
   }
   
