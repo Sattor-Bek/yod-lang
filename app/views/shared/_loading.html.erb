@@ -1,0 +1,16 @@
+<div class="text-center">
+<div class="loader_before loader" id="loading"></div>
+<strong class="loader_before loader" id="loading_message">Loading...</strong>
+</div>
+<script>
+  const sub_getter_element = document.getElementById('sub_getter');
+  sub_getter_element.addEventListener('click', () => {
+    document.getElementById("loading").classList.remove("loader_before");
+    document.getElementById("loading_message").classList.remove("loader_before");
+  })
+  sub_getter_element.addEventListener('keydown', () => {
+    if(event.key === 'Enter') {
+      document.getElementById("loading").classList.remove("loader_before");
+      document.getElementById("loading_message").classList.remove("loader_before");
+      }})
+</script>

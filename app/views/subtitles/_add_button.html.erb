@@ -5,22 +5,6 @@
   <div id="sub_getter">
     <%= f.button :submit, "字幕を取得", class: 'btn btn-success'%>
     <% end %>
-    <div class="text-center">
-      <div class="lds-roller loading-show" id="loading"><strong>Loading...</strong></div>
-    </div>
+    <%= render 'shared/loading'%>
   </div>
-
 </div>
-
-<script>
-  const sub_getter_element = document.getElementById('sub_getter');
-  const loading_element = document.getElementById('loading');
-
-  sub_getter_element.addEventListener('click', () => {
-    loading_element.removeAttribute('id');
-  })
-  sub_getter_element.addEventListener('keydown', () => {
-    if(event.key === 'Enter') {
-      loading_element.removeAttribute('id');
-      }})
-</script>
