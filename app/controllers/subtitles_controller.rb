@@ -11,7 +11,9 @@ class SubtitlesController < ApplicationController
   def create
     url = params[:subtitle][:video_id]
     video_id = parse_url(url)
+    redirect_back(fallback_location: root_path), notice: "字幕を取得できませんでした" if video_id.nil?
     url_id = video_id
+    raise
     video_info = GetVideoInfo.call_api(video_id)
     language_list = GetLanguageList.call_api(video_id)
     @subtitle = Subtitle.find_or_create_by(video_id: video_id,
@@ -96,7 +98,7 @@ class SubtitlesController < ApplicationController
 
   def parse_url(url)
     regex = /(?:.be\/|\/watch\?v=|\/(?=p\/))([\w\/\-]+)/
-    url != "" ? url.match(regex)[1] : redirect_to root_path notice:'字幕を取得できませんでした。'
+    url.match(regex)[1] if url != ""
   end
 
   def authorize_subtitle
