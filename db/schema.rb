@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_001915) do
+ActiveRecord::Schema.define(version: 2020_02_09_154855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,26 @@ ActiveRecord::Schema.define(version: 2020_01_10_001915) do
     t.index ["book_id"], name: "index_cards_on_book_id"
   end
 
+  create_table "forums", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_forums_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "forum_id"
+    t.string "title"
+    t.text "comment"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["forum_id"], name: "index_posts_on_forum_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "subtitles", force: :cascade do |t|
     t.string "video_title"
     t.string "video_id"
@@ -97,6 +117,9 @@ ActiveRecord::Schema.define(version: 2020_01_10_001915) do
   add_foreign_key "books", "users"
   add_foreign_key "cards", "blocks"
   add_foreign_key "cards", "books"
+  add_foreign_key "forums", "users"
+  add_foreign_key "posts", "forums"
+  add_foreign_key "posts", "users"
   add_foreign_key "subtitles", "users"
   add_foreign_key "translations", "subtitles"
 end
