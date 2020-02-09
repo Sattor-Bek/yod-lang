@@ -1,12 +1,23 @@
 <%= render 'shared/navbar' %>
 <h3><%= @forum.title %><h3>
-<ul> 
-    <% @posts.each do |post| %>
-        <li>
-        <%= User.find(post.user_id)%>
-        <%= post.title %>
-        <%= post.comment %>
-        <%= post.updated_at %>
-        </li>
-    <% end %>
-</ul>
+<% if @post == nil %>
+<br>
+    <p> まだエントリーがありません　</p>
+<% else %>
+<br>
+    <ul> 
+        <% @posts.each do |post| %>
+            <li>
+            <%= User.find(post.user_id)%>
+            <%= post.title %>
+            <%= post.comment %>
+            <%= post.updated_at %>
+            </li>
+        <% end %>
+    </ul>
+<% end %>
+<%= simple_form_for @post do |f| %>
+    <%= f.input :title, label: false, class: "mr-5 mb-3" %>
+    <%= f.input :comment, label: false, class: "mr-5 mb-3" %>
+    <%= f.button :submit, "新しいスレッド", class: 'h-100 btn btn-primary' %>
+<% end %>

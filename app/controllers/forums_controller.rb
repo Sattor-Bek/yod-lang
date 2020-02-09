@@ -1,21 +1,26 @@
 class ForumsController < ApplicationController
+  skip_after_action :verify_policy_scoped, :only => :index
   def index
-    authorize_forum
     @forums = Forum.all
   end
 
   def show
-    authorize_forum
     @forum = Forum.find(params[:id])
-    @posts = Post.find_by(forum_id: params[:forum.id])
+    @posts = Post.find_by(forum_id: params[:id])
+    skip_authorization    
   end
 
   def new
     @forum = Forum.new
+    skip_authorization
   end
 
   def create
-    Forum.create(forum_params)
+    user = current_user
+    forum = Forum.new(title: forum_params[:title], user_id:current_user.id)
+    forum.save
+    skip_authorization
+    redirect_to forums_path
   end
 
   def edit
@@ -28,6 +33,6 @@ class ForumsController < ApplicationController
   end
 
   def forum_params
-    params.require(:forum).permit(:title, :user_id, :updated_at)
+    params.require(:forum).permit(:title)
   end
 end

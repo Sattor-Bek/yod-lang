@@ -1,11 +1,19 @@
 <%= render 'shared/navbar' %>
-<ul> 
-    <% @forums.each do |forum| %>
-        <li>
-        <%= forum.title %>
-        <%= Post.find_by(forum_id: forum.id).count %>
-        <%= forum.updated_at %>
-        <p> created by :<%= User.find(forum.user_id)%></p>
-        </li>
-    <% end %>
-</ul>
+<br><br><br>
+<% if @forums != nil %>
+    <ul> 
+        <% @forums.each do |forum| %>
+            <li>
+            <%= link_to forum.title, forum_path(forum) %>
+            <% if Post.find_by(forum_id: forum.id) %>
+            <%= Post.find_by(forum_id: forum.id).count %>
+            <% else%>
+            <p>まだ何も書き込みがありません</p>
+            <% end %>
+            <%= forum.updated_at %>
+            <p> created by :<%= User.find(forum.user_id).user_name%></p>
+            </li>
+        <% end %>
+    </ul>
+<% end %>
+<%= link_to "Forum", forums_new_path %>
