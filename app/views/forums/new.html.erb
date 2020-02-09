@@ -1,2 +1,16 @@
 <h1>Forums#new</h1>
-<p>Find me in app/views/forums/new.html.erb</p>
+<div class="container">
+  <div class="box">
+  <%= simple_form_for @forum do |f| %>
+    <div class="row ml-2">
+    <h4 class="ml-5 mr-2 mb-3 block"><strong>タイトル:</strong></h4>
+    </div>
+    <div class="row ml-5 mr-5 url_input" id="input_bar">
+    <%= input :title, label: false, class: "mr-5 mb-3" %>
+      <div id="sub_getter">
+      <%= f.button :submit, "新しいスレッド", class: 'h-100 btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

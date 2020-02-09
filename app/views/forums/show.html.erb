@@ -1,0 +1,12 @@
+<%= render 'shared/navbar' %>
+<h3><%= @forum.title %><h3>
+<ul> 
+    <% @posts.each do |post| %>
+        <li>
+        <%= User.find(post.user_id)%>
+        <%= post.title %>
+        <%= post.comment %>
+        <%= post.updated_at %>
+        </li>
+    <% end %>
+</ul>

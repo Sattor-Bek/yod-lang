@@ -4,7 +4,7 @@
       <%= link_to "Home", root_path , class: "nav-link"%>
     </li>
     <li class="nav-item" >
-      <p>Forums</p>
+      <%= link_to "Forum", forums_path, class: "nav-link"%>
     </li>
     <% if user_signed_in? %>
     <li>
