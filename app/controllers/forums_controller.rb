@@ -7,7 +7,8 @@ class ForumsController < ApplicationController
   def show
     @forum = Forum.find(params[:id])
     @posts = Post.find_by(forum_id: params[:id])
-    skip_authorization    
+    @post = Post.new
+    skip_authorization
   end
 
   def new

@@ -1,6 +1,7 @@
 <%= render 'shared/navbar' %>
 <h3><%= @forum.title %><h3>
-<% if @post == nil %>
+
+<% if @posts == nil %>
 <br>
     <p> まだエントリーがありません　</p>
 <% else %>
@@ -16,8 +17,10 @@
         <% end %>
     </ul>
 <% end %>
-<%= simple_form_for @post do |f| %>
-    <%= f.input :title, label: false, class: "mr-5 mb-3" %>
-    <%= f.input :comment, label: false, class: "mr-5 mb-3" %>
-    <%= f.button :submit, "新しいスレッド", class: 'h-100 btn btn-primary' %>
-<% end %>
+<div class="container">
+    <%= simple_form_for @post do |f| %>
+        <%= f.input :title, label: false, class: "mr-5 mb-3" %>
+        <%= f.input :comment, label: false, class: "mr-5 mb-3" %>
+        <%= f.button :submit, "新しいスレッド", class: 'h-100 btn btn-primary' %>
+    <% end %>
+</div>
