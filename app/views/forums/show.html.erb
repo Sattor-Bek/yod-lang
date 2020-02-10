@@ -2,10 +2,7 @@
 <h3><%= @forum.title %><h3>
 <%= @forum.comment %>
 
-<% if @posts == nil %>
-<br>
-    <p> まだエントリーがありません　</p>
-<% else %>
+<% if @posts %>
 <br>
     <ul> 
         <% @posts.each do |post| %>
@@ -17,13 +14,8 @@
             </li>
         <% end %>
     </ul>
+<% else %>
+    <br>
+    <p> まだエントリーがありません　</p>
 <% end %>
-<div class="container form_box">
-    <%= simple_form_for () do |f| %>
-        <p>タイトル</p>
-        <%= f.input :title, label: false, placeholder: "タイトル" ,class: "mr-5 mb-3" %>
-        <p>書き込み</p>
-        <%= f.text_area :comment, label: false, placeholder: "書き込み内容", class: "form_box_text_area" %>
-        <%= f.button :submit, "新しいスレッド", class: 'btn btn-primary' %>
-    <% end %>
-</div>
+<% render 'posts/new'%>

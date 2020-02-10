@@ -6,7 +6,7 @@
             <li>
             <%= link_to forum.title, forum_path(forum) %>
             <% if Post.find_by(forum_id: forum.id) %>
-            <%= Post.find_by(forum_id: forum.id).count %>
+            <p>書き込み：<%= Post.find_by(forum_id: forum.id).count %>件</p>
             <% else%>
             <p>まだ何も書き込みがありません</p>
             <% end %>

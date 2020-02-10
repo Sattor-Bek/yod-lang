@@ -6,12 +6,9 @@ class ForumsController < ApplicationController
 
   def show
     @forum = Forum.find(params[:id])
-    if @posts = Post.find_by(forum_id: params[:id])
-      @posts
-      @post = Post.new(forum_id: params[:id])
-    else
-      @post = Post.new(forum_id: params[:id])
-    end
+    @posts = Post.where(forum_id: params[:id]) 
+    @post = Post.new(user_id:current_user.id, forum_id:params[:id])
+    @post.save
     skip_authorization
   end
 
@@ -21,7 +18,6 @@ class ForumsController < ApplicationController
   end
 
   def create
-    user = current_user
     forum = Forum.new(title: forum_params[:title], comment: forum_params[:comment], image: forum_params[:image], user_id:current_user.id)
     forum.save
     skip_authorization

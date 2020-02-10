@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   # post 'pages/guest' => 'pages#guest'
   post '/pages/guest_sign_in', to: 'pages#new_guest'
-  resources :forums, only: [:index, :create, :show, :edit, :update]
+  resources :forums, only: [:index, :create, :show, :edit, :update] do 
+    resources :posts
+  end
 
 
   resources :subtitles, only: [:index, :create, :show, :eidt, :update], param: :url_id do
