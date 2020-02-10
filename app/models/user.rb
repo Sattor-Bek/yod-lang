@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :translations
   has_many :books
   has_many :cards, through: :books
+  has_many :forums
+  has_many :posts, through: :forums
 
   # def self.new_guest
   #   new do |u|
