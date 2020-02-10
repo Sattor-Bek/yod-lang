@@ -22,7 +22,7 @@ class ForumsController < ApplicationController
 
   def create
     user = current_user
-    forum = Forum.new(title: forum_params[:title], user_id:current_user.id)
+    forum = Forum.new(title: forum_params[:title], comment: forum_params[:comment], image: forum_params[:image], user_id:current_user.id)
     forum.save
     skip_authorization
     redirect_to forums_path
@@ -38,6 +38,6 @@ class ForumsController < ApplicationController
   end
 
   def forum_params
-    params.require(:forum).permit(:title)
+    params.require(:forum).permit(:title, :comment, :image)
   end
 end

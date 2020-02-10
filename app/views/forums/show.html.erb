@@ -1,5 +1,6 @@
 <%= render 'shared/navbar' %>
 <h3><%= @forum.title %><h3>
+<%= @forum.comment %>
 
 <% if @posts == nil %>
 <br>
@@ -18,7 +19,7 @@
     </ul>
 <% end %>
 <div class="container form_box">
-    <%= simple_form_for @post do |f| %>
+    <%= simple_form_for () do |f| %>
         <p>タイトル</p>
         <%= f.input :title, label: false, placeholder: "タイトル" ,class: "mr-5 mb-3" %>
         <p>書き込み</p>
