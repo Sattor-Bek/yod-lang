@@ -10,11 +10,14 @@ class PostsController < ApplicationController
 
   def create
     @forum = Forum.find(params[:forum_id])
-    @post = @forum.posts.build(posts_params)
+    @post = @forum.posts.build(title: posts_params[:title], comment: posts_params[:comment], image:posts_params[:image], user_id: current_user.id)
     if @post.save
+      skip_authorization
       redirect_to forum_path(@forum)
     else
-      render forum_path(@forum)
+      raise
+      skip_authorization
+      redirect_to forum_path(@forum)
     end
   end
 
@@ -22,6 +25,6 @@ class PostsController < ApplicationController
   end
 
   def posts_params
-    params.require(:post).permit(:title, :comment, :image, :forum_id)
+    params.require(:post).permit(:title, :comment, :image)
   end
 end
