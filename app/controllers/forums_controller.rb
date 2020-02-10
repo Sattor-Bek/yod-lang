@@ -7,8 +7,6 @@ class ForumsController < ApplicationController
   def show
     @forum = Forum.find(params[:id])
     @posts = Post.where(forum_id: params[:id]) 
-    @post = Post.new(user_id:current_user.id, forum_id:params[:id])
-    @post.save
     skip_authorization
   end
 

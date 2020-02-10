@@ -7,8 +7,8 @@
     <ul> 
         <% @posts.each do |post| %>
             <li>
-            <%= User.find(post.user_id)%>
-            <%= post.title if post.title%>
+            <%= User.find(post.user_id).user_name%>
+            <%= post.title if post.title%><br>
             <%= post.comment if post.comment %>
             <%= post.updated_at %>
             </li>
@@ -18,4 +18,5 @@
     <br>
     <p> まだエントリーがありません　</p>
 <% end %>
-<% render 'posts/new'%>
+
+<%= link_to "新しい書き込み", new_forum_post_path(@forum, @post) %>
