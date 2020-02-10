@@ -8,8 +8,8 @@
         <% @posts.each do |post| %>
             <li>
             <%= User.find(post.user_id)%>
-            <%= post.title %>
-            <%= post.comment %>
+            <%= post.title if post.title%>
+            <%= post.comment if post.comment %>
             <%= post.updated_at %>
             </li>
         <% end %>
