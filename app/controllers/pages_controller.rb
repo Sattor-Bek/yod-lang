@@ -2,7 +2,6 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:home, :guest, :new_guest]
 
   def home
-    @date = DateTime.now
     @subtitle = Subtitle.new
   end
 

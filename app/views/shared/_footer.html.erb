@@ -1,5 +1,8 @@
 <div class="footer fixed-bottom" >
   <div class="footer-copyright">
-    <p>&copy; <%= @date.year %> www.yod-lang.com. All Right Reserved.</p>
+    <p>&copy; <span id="year"></span> www.yod-lang.com. All Right Reserved.</p>
   </div>
 </div>
+<script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
