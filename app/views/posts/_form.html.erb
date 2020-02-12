@@ -1,0 +1,9 @@
+<div class="container form_box">
+    <%= simple_form_for [@forum,@post] do |f| %>
+        <p>タイトル</p>
+        <%= f.input :title, label: false, placeholder: "タイトル" ,class: "mr-5 mb-3" %>
+        <p>書き込み</p>
+        <%= f.text_area :comment, label: false, placeholder: "書き込み内容", class: "form_box_text_area" %>
+        <%= f.button :submit, "決定", class: 'btn btn-primary' %>
+    <% end %>
+</div>
