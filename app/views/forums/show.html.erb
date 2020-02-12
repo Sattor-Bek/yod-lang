@@ -1,25 +1,31 @@
 <%= render 'shared/navbar' %>
-<h3><%= @forum.title %><h3>
-<%= @forum.comment %>
-
-<div class="post-box">
-    <div class="post">
-    <% if @posts %>
-    <br>
-        <ul> 
-            <% @posts.each do |post| %>
-                <li>
-                <%= User.find(post.user_id).user_name%>
-                <%= post.title if post.title%><br>
-                <%= post.comment if post.comment %>
-                <%= post.updated_at %>
-                </li>
-            <% end %>
-        </ul>
-    <% else %>
-        <p> まだエントリーがありません　</p>
-    <% end %>
+<div class="post-container">
+<h4 class="forum-title" style="text-align:center;"><%= @forum.title %><h4>
+    <div class="post m-2">
+        <p class="forum-comment"><%= @forum.comment %></p>
+        <div class="post-user">
+            <p class="forum-info"><%= Forum.find(params[:id]).user.user_name%> at <%= Forum.find(params[:id]).created_at %> </p>
+        </div>        
     </div>
+    <% if @posts %>
+        <% @posts.each do |post| %>
+            <div class="post m-2">
+                <div class="post-title">
+                    <p><%= post.title if post.title%><p>
+                </div>
+                <div class="post-comment">
+                    <p><%= post.comment if post.comment %></p>
+                </div>
+                <div class="post-info">
+                    <p><%= User.find(post.user_id).user_name%> at <%= post.updated_at %></p>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+    <div class="post m-2">
+        <p> まだエントリーがありません　</p>
+    </div>
+    <% end %>
     <div class="m-2" id="new-forum-btn">
         <%= link_to "新しい書き込み", new_forum_post_path(@forum, @post) %>
     </div>

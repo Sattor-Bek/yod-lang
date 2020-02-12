@@ -12,7 +12,9 @@
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: medium;
 }
+
 .post {
     padding: 0.5em 1em;
     margin: 1em 0;
@@ -25,3 +27,16 @@
     }
 }
  
+.post-title {
+    font-size:medium;
+    font-weight: bold;
+}
+
+.post-comment{
+    font-size:medium;
+}
+.post-info {
+    font-size: small;
+    display: inline-block;
+    color: gray;
+}
