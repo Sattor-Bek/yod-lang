@@ -2,21 +2,25 @@
 <h3><%= @forum.title %><h3>
 <%= @forum.comment %>
 
-<% if @posts %>
-<br>
-    <ul> 
-        <% @posts.each do |post| %>
-            <li>
-            <%= User.find(post.user_id).user_name%>
-            <%= post.title if post.title%><br>
-            <%= post.comment if post.comment %>
-            <%= post.updated_at %>
-            </li>
-        <% end %>
-    </ul>
-<% else %>
+<div class="post-box">
+    <div class="post">
+    <% if @posts %>
     <br>
-    <p> まだエントリーがありません　</p>
-<% end %>
-
-<%= link_to "新しい書き込み", new_forum_post_path(@forum, @post) %>
+        <ul> 
+            <% @posts.each do |post| %>
+                <li>
+                <%= User.find(post.user_id).user_name%>
+                <%= post.title if post.title%><br>
+                <%= post.comment if post.comment %>
+                <%= post.updated_at %>
+                </li>
+            <% end %>
+        </ul>
+    <% else %>
+        <p> まだエントリーがありません　</p>
+    <% end %>
+    </div>
+    <div class="m-2" id="new-forum-btn">
+        <%= link_to "新しい書き込み", new_forum_post_path(@forum, @post) %>
+    </div>
+</div>

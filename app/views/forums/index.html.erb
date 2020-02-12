@@ -2,18 +2,24 @@
 <div class="forum-container">
     <% if @forums != nil %>
             <% @forums.each do |forum| %>
-            <div class="forum-title ml-1">
-                <%= link_to forum.title, forum_path(forum) %> <span class="forum-master"> By :<%= User.find(forum.user_id).user_name%></span>
-            </div>
-            <div class="forum-date ml-1">
+        <div class="forum-div-link m-2">
+            <span class="forum-title ml-1">
+            <a href="/forums/<%=forum.id%>"></a>
+                <%= forum.title if forum.title %> <span class="forum-master"> By :<%= User.find(forum.user_id).user_name%></span>
+            </span>
+            <p class="forum-date ml-1">
                <%= forum.updated_at %>
-            </div>
+            </p>
                 <% if Post.find_by(forum_id: forum.id) %>
-                <p>書き込み：<%= Post.where(forum_id: forum.id).count %>件</p>
+                    <p class="ml-1" > 書き込み：<%= Post.where(forum_id: forum.id).count %>件</p>
                 <% else%>
-                <p>まだ何も書き込みがありません</p>
-                <% end %>                
+                    <p class="ml-1"> まだ何も書き込みがありません</p>
+                <% end %>
+        </div>           
             <% end %>
     <% end %>
-<%= link_to "新しいスレッドを作る", forums_new_path %>
+    <div class="m-2" id="new-forum-btn">
+        <%= link_to "新しいスレッドを作る", forums_new_path %>
+    </div>
+    <br>
 </div>
