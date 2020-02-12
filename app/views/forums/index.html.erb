@@ -1,19 +1,19 @@
 <%= render 'shared/navbar' %>
-<br><br><br>
-<% if @forums != nil %>
-    <ul> 
-        <% @forums.each do |forum| %>
-            <li>
-            <%= link_to forum.title, forum_path(forum) %>
-            <% if Post.find_by(forum_id: forum.id) %>
-            <p>書き込み：<%= Post.where(forum_id: forum.id).count %>件</p>
-            <% else%>
-            <p>まだ何も書き込みがありません</p>
+<div class="forum-container">
+    <% if @forums != nil %>
+            <% @forums.each do |forum| %>
+            <div class="forum-title ml-1">
+                <%= link_to forum.title, forum_path(forum) %> <span class="forum-master"> By :<%= User.find(forum.user_id).user_name%></span>
+            </div>
+            <div class="forum-date ml-1">
+               <%= forum.updated_at %>
+            </div>
+                <% if Post.find_by(forum_id: forum.id) %>
+                <p>書き込み：<%= Post.where(forum_id: forum.id).count %>件</p>
+                <% else%>
+                <p>まだ何も書き込みがありません</p>
+                <% end %>                
             <% end %>
-            <%= forum.updated_at %>
-            <p> created by :<%= User.find(forum.user_id).user_name%></p>
-            </li>
-        <% end %>
-    </ul>
-<% end %>
-<%= link_to "Forum", forums_new_path %>
+    <% end %>
+<%= link_to "新しいスレッドを作る", forums_new_path %>
+</div>
