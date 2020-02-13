@@ -3,17 +3,18 @@
     <li class="nav-item" >
       <%= link_to "Home", root_path , class: "nav-link"%>
     </li>
-    <li class="nav-item" >
-      <%= link_to "Forum", forums_path, class: "nav-link"%>
-    </li>
-    <% if user_signed_in? %>
-    <li>
-        <button class="btn btn-secondary btn" id="dropdownMenuButton" ><%= current_user.user_name %>としてログイン中</button>
-        <div id="dd-item" class="dd-hidden mt-2">
-          <p><%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
-        </div>
-    </li>
-
+    <div class="row mr-2">  
+      <li class="nav-item" >
+        <%= link_to "Forum", forums_path, class: "nav-link"%>
+      </li>
+      <% if user_signed_in? %>
+      <li>
+          <button class="btn btn-secondary btn" id="dropdownMenuButton" ><%= current_user.user_name %>としてログイン中</button>
+          <div id="dd-item" class="dd-hidden mt-2">
+            <p><%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
+          </div>
+      </li>
+    </div>
     <% else %>
       <li class="nav-item">
         <%= link_to "Login", new_user_session_path, class: "nav-link" %>
