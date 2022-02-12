@@ -101,7 +101,7 @@ GEM
     pg (1.1.4)
     pragmatic_segmenter (0.3.22)
       unicode
-    puma (4.3.9)
+    puma (4.3.11)
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
